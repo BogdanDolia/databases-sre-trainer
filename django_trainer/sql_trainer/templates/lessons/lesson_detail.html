@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}{{ lesson.title }} - PostgreSQL SRE Trainer{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Sidebar with lesson navigation -->
+    <div class="col-md-3 mb-4">
+        <div class="card shadow-sm nav-sidebar">
+            <div class="card-header bg-dark text-white">
+                <i class="fas fa-list me-2"></i> Lessons
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="{% url 'lessons:index' %}" class="list-group-item list-group-item-action">
+                    <i class="fas fa-home me-2"></i> All Lessons
+                </a>
+                {% if exercises %}
+                    <div class="card-header bg-light">
+                        <i class="fas fa-tasks me-2"></i> Exercises
+                    </div>
+                    {% for exercise in exercises %}
+                        <a href="#exercise-{{ exercise.id }}" 
+                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center exercise-link"
+                           data-exercise-id="{{ exercise.id }}"
+                           data-exercise-title="{{ exercise.title }}"
+                           data-exercise-description="{{ exercise.description|safe }}"
+                           data-exercise-initial-query="{{ exercise.initial_query }}"
+                           data-exercise-slug="{{ lesson.slug }}">
+                            {{ exercise.title }}
+                            {% if exercise.id in completed_exercises %}
+                                <span class="badge rounded-pill completed-badge">
+                                    <i class="fas fa-check"></i>
+                                </span>
+                            {% endif %}
+                        </a>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main content area -->
+    <div class="col-md-9">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'lessons:index' %}">Lessons</a></li>
+                <li class="breadcrumb-item active">{{ lesson.title }}</li>
+            </ol>
+        </nav>
+        
+        <div class="card shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">{{ lesson.title }}</h2>
+            </div>
+            <div class="card-body markdown-content">
+                {{ lesson.content|safe }}
+            </div>
+        </div>
+        
+        <!-- Exercise Section -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h3 class="h5 mb-0" id="exercise-title">
+                    {% if exercises %}
+                        Select an exercise from the sidebar
+                    {% else %}
+                        No exercises available
+                    {% endif %}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div id="exercise-description" class="mb-4">
+                    {% if exercises %}
+                        <p>Click on an exercise in the sidebar to load it here.</p>
+                    {% else %}
+                        <p>This lesson doesn't have any exercises yet.</p>
+                    {% endif %}
+                </div>
+                
+                <div id="query-editor" {% if not exercises %}style="display: none;"{% endif %}>
+                    <div class="form-group">
+                        <label for="sql-query">SQL Query:</label>
+                        <textarea name="query" id="sql-query" class="sql-editor" rows="10" placeholder="Enter your SQL query here..."></textarea>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                        <button class="btn btn-primary" id="execute-query-btn">
+                            <i class="fas fa-play me-2"></i> Execute Query
+                        </button>
+                        <button class="btn btn-outline-secondary" id="reset-query-btn">
+                            <i class="fas fa-undo me-2"></i> Reset Query
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="query-feedback" class="mt-3" style="display: none;">
+                    <div class="correct-answer alert alert-success" style="display: none;">
+                        <i class="fas fa-check-circle me-2"></i> Correct! Your query is correct.
+                    </div>
+                    <div class="incorrect-answer alert alert-warning" style="display: none;">
+                        <i class="fas fa-exclamation-circle me-2"></i> Not quite right. Your query returns the correct result, but try to match the expected solution.
+                    </div>
+                </div>
+                
+                <div id="query-error" class="mt-3 error-message" style="display: none;"></div>
+                
+                <div id="query-result" class="mt-3 query-result" style="display: none;">
+                    <h4 class="h6">Query Results:</h4>
+                    <div class="table-responsive results-table">
+                        <table class="table table-sm table-hover table-bordered">
+                            <thead class="table-light" id="result-thead"></thead>
+                            <tbody id="result-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/sql.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Highlight code blocks
+        document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightElement(block);
+        });
+        
+        // SQL query editor functionality
+        const sqlEditor = document.getElementById('sql-query');
+        const executeBtn = document.getElementById('execute-query-btn');
+        const resetBtn = document.getElementById('reset-query-btn');
+        const queryResult = document.getElementById('query-result');
+        const queryError = document.getElementById('query-error');
+        const queryFeedback = document.getElementById('query-feedback');
+        const correctAnswer = document.querySelector('.correct-answer');
+        const incorrectAnswer = document.querySelector('.incorrect-answer');
+        const resultThead = document.getElementById('result-thead');
+        const resultTbody = document.getElementById('result-tbody');
+        const exerciseTitle = document.getElementById('exercise-title');
+        const exerciseDescription = document.getElementById('exercise-description');
+        
+        let currentExerciseId = null;
+        let currentInitialQuery = '';
+        
+        // Handle exercise selection
+        document.querySelectorAll('.exercise-link').forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                
+                // Update current exercise
+                currentExerciseId = link.dataset.exerciseId;
+                currentInitialQuery = link.dataset.exerciseInitialQuery;
+                
+                // Update exercise title and description
+                exerciseTitle.textContent = link.dataset.exerciseTitle;
+                exerciseDescription.innerHTML = link.dataset.exerciseDescription;
+                
+                // Update query editor with initial query
+                sqlEditor.value = currentInitialQuery;
+                
+                // Clear previous results
+                queryResult.style.display = 'none';
+                queryError.style.display = 'none';
+                queryFeedback.style.display = 'none';
+                
+                // Make sure query editor is visible
+                document.getElementById('query-editor').style.display = 'block';
+            });
+        });
+        
+        // Execute query function
+        executeBtn.addEventListener('click', () => {
+            const query = sqlEditor.value.trim();
+            
+            if (!query) {
+                queryError.textContent = 'Please enter a SQL query.';
+                queryError.style.display = 'block';
+                queryResult.style.display = 'none';
+                queryFeedback.style.display = 'none';
+                return;
+            }
+            
+            queryError.style.display = 'none';
+            queryResult.style.display = 'none';
+            queryFeedback.style.display = 'none';
+            executeBtn.disabled = true;
+            executeBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Executing...';
+            
+            fetch('{% url "lessons:execute_query" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: query,
+                    exercise_id: currentExerciseId
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                executeBtn.disabled = false;
+                executeBtn.innerHTML = '<i class="fas fa-play me-2"></i> Execute Query';
+                
+                if (data.error) {
+                    queryError.textContent = data.error;
+                    queryError.style.display = 'block';
+                    return;
+                }
+                
+                // Show query results
+                resultThead.innerHTML = '';
+                resultTbody.innerHTML = '';
+                
+                // Create table header
+                const headerRow = document.createElement('tr');
+                data.columns.forEach(column => {
+                    const th = document.createElement('th');
+                    th.textContent = column;
+                    headerRow.appendChild(th);
+                });
+                resultThead.appendChild(headerRow);
+                
+                // Create table rows
+                data.rows.forEach(row => {
+                    const tr = document.createElement('tr');
+                    data.columns.forEach(column => {
+                        const td = document.createElement('td');
+                        td.textContent = row[column] !== null ? row[column] : 'NULL';
+                        tr.appendChild(td);
+                    });
+                    resultTbody.appendChild(tr);
+                });
+                
+                queryResult.style.display = 'block';
+                
+                // Show feedback if applicable
+                if (currentExerciseId && data.is_correct !== undefined) {
+                    queryFeedback.style.display = 'block';
+                    if (data.is_correct) {
+                        correctAnswer.style.display = 'block';
+                        incorrectAnswer.style.display = 'none';
+                        
+                        // Update the sidebar to mark this exercise as completed
+                        const exerciseLink = document.querySelector(`[data-exercise-id="${currentExerciseId}"]`);
+                        if (exerciseLink && !exerciseLink.querySelector('.completed-badge')) {
+                            const badge = document.createElement('span');
+                            badge.className = 'badge rounded-pill completed-badge';
+                            badge.innerHTML = '<i class="fas fa-check"></i>';
+                            exerciseLink.appendChild(badge);
+                        }
+                    } else {
+                        correctAnswer.style.display = 'none';
+                        incorrectAnswer.style.display = 'block';
+                    }
+                }
+            })
+            .catch(error => {
+                executeBtn.disabled = false;
+                executeBtn.innerHTML = '<i class="fas fa-play me-2"></i> Execute Query';
+                queryError.textContent = 'An error occurred while executing the query.';
+                queryError.style.display = 'block';
+                console.error('Error:', error);
+            });
+        });
+        
+        // Reset query function
+        resetBtn.addEventListener('click', () => {
+            // Reset the textarea with the initial query for current exercise
+            sqlEditor.value = currentInitialQuery;
+            
+            queryResult.style.display = 'none';
+            queryError.style.display = 'none';
+            queryFeedback.style.display = 'none';
+        });
+    });
+</script>
+{% endblock %}

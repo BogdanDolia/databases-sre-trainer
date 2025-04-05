@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:14
+    container_name: postgres_db
+    restart: always
+    environment:
+      - POSTGRES_DB=sql_trainer
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  django_app:
+    build: 
+      context: ./django_trainer
+      dockerfile: Dockerfile
+    container_name: django_trainer
+    restart: always
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - DATABASE_HOST=database
+      - DATABASE_NAME=sql_trainer
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_PORT=5432
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@example.comdocker exec django_trainer python manage.py export_lessons
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./django_trainer:/app
+      - ./fixtures:/app/fixtures
+
+volumes:
+  postgres_data:

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Initialize Database - PostgreSQL SRE Trainer{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="mb-4">Initialize Database</h1>
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>Information:</strong> You are about to initialize the database with sample data (tables, views, etc.).
+        </div>
+        <p>
+            Initializing the database will:
+        </p>
+        <ul>
+            <li>Create tables for employees, departments, movies, etc.</li>
+            <li>Populate tables with sample data</li>
+            <li>Create indexes and views</li>
+        </ul>
+        <p>
+            If the database already contains tables, they will remain unless there are conflicting names.
+        </p>
+        
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            <div class="d-flex">
+                <button type="submit" class="btn btn-primary me-2">
+                    <i class="fas fa-database me-2"></i> Initialize Database
+                </button>
+                <a href="{% url 'lessons:index' %}" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

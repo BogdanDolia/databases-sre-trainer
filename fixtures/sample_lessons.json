@@ -1,0 +1,102 @@
+[
+  {
+    "model": "lessons.lesson",
+    "pk": 28,
+    "fields": {
+      "title": "Introduction to SQL",
+      "slug": "intro-to-sql",
+      "description": "Learn the basics of SQL querying with PostgreSQL",
+      "content": "\n<h1>Introduction to SQL</h1>\n\n<p>SQL (Structured Query Language) is a standard language for storing, manipulating, and retrieving data in relational databases. This lesson covers the basics of SQL queries using PostgreSQL.</p>\n\n<h2>Basic SELECT Statement</h2>\n\n<p>The most fundamental SQL command is the SELECT statement, which retrieves data from a database table:</p>\n\n<pre><code class=\"language-sql\">SELECT column1, column2, ... \nFROM table_name;</code></pre>\n\n<p>To select all columns from a table, use the * wildcard:</p>\n\n<pre><code class=\"language-sql\">SELECT * FROM table_name;</code></pre>\n\n<h2>Filtering Data with WHERE</h2>\n\n<p>The WHERE clause allows you to filter records based on specific conditions:</p>\n\n<pre><code class=\"language-sql\">SELECT column1, column2, ...\nFROM table_name\nWHERE condition;</code></pre>\n\n<p>For example, to find employees with a salary greater than 50000:</p>\n\n<pre><code class=\"language-sql\">SELECT first_name, last_name, salary\nFROM employees\nWHERE salary > 50000;</code></pre>\n\n<h2>Sorting Data with ORDER BY</h2>\n\n<p>The ORDER BY clause is used to sort the result set:</p>\n\n<pre><code class=\"language-sql\">SELECT column1, column2, ...\nFROM table_name\nORDER BY column1 [ASC|DESC];</code></pre>\n\n<p>For example, to sort employees by last name in alphabetical order:</p>\n\n<pre><code class=\"language-sql\">SELECT first_name, last_name, hire_date\nFROM employees\nORDER BY last_name ASC;</code></pre>\n",
+      "order": 1
+    }
+  },
+  {
+    "model": "lessons.lesson",
+    "pk": 29,
+    "fields": {
+      "title": "Advanced SQL Queries",
+      "slug": "advanced-sql",
+      "description": "Learn advanced SQL querying techniques with PostgreSQL",
+      "content": "\n<h1>Advanced SQL Queries</h1>\n\n<p>This lesson covers more advanced SQL querying techniques including joins, aggregations, and subqueries.</p>\n\n<h2>JOIN Operations</h2>\n\n<p>Joins allow you to combine rows from two or more tables based on a related column:</p>\n\n<pre><code class=\"language-sql\">SELECT columns\nFROM table1\nJOIN table2\nON table1.column = table2.column;</code></pre>\n\n<p>For example, to join employees with their departments:</p>\n\n<pre><code class=\"language-sql\">SELECT employees.name, departments.name as department\nFROM employees\nJOIN departments ON employees.department_id = departments.id;</code></pre>\n\n<h2>Aggregate Functions</h2>\n\n<p>SQL provides several aggregate functions to perform calculations on data:</p>\n\n<ul>\n  <li>COUNT(): Counts the number of rows</li>\n  <li>SUM(): Calculates the sum of values</li>\n  <li>AVG(): Calculates the average of values</li>\n  <li>MIN(): Finds the minimum value</li>\n  <li>MAX(): Finds the maximum value</li>\n</ul>\n\n<p>For example, to find the average salary by department:</p>\n\n<pre><code class=\"language-sql\">SELECT department, AVG(salary) as average_salary\nFROM employees\nGROUP BY department;</code></pre>\n\n<h2>Subqueries</h2>\n\n<p>A subquery is a query within another query:</p>\n\n<pre><code class=\"language-sql\">SELECT column\nFROM table1\nWHERE column = (SELECT column FROM table2 WHERE condition);</code></pre>\n\n<p>For example, to find employees with a salary higher than the average:</p>\n\n<pre><code class=\"language-sql\">SELECT name, salary\nFROM employees\nWHERE salary > (SELECT AVG(salary) FROM employees);</code></pre>\n",
+      "order": 2
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 54,
+    "fields": {
+      "lesson": 28,
+      "title": "Select All Employees",
+      "instruction": "Write a query to select all columns from the employees table.",
+      "hints": "Use the * wildcard to select all columns.",
+      "initial_query": "-- Write your query here\n",
+      "solution_query": "SELECT * FROM employees;",
+      "order": 1
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 55,
+    "fields": {
+      "lesson": 28,
+      "title": "Filter Employees by Department",
+      "instruction": "Write a query to select all employees from the Engineering department.",
+      "hints": "Use the WHERE clause to filter by department name.",
+      "initial_query": "-- Write your query here\n",
+      "solution_query": "SELECT * FROM employees WHERE department = 'Engineering';",
+      "order": 2
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 56,
+    "fields": {
+      "lesson": 28,
+      "title": "Sort Employees by Salary",
+      "instruction": "Write a query to select the name and salary of all employees, sorted by salary in descending order (highest first).",
+      "hints": "Use ORDER BY with the DESC keyword.",
+      "initial_query": "-- Write your query here\n",
+      "solution_query": "SELECT name, salary FROM employees ORDER BY salary DESC;",
+      "order": 3
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 57,
+    "fields": {
+      "lesson": 29,
+      "title": "Join Employees and Departments",
+      "instruction": "Write a query to join the employees and departments tables to display each employee name alongside their department name.",
+      "hints": "Use an INNER JOIN with the department_id foreign key.",
+      "initial_query": "-- Write your query here\n",
+      "solution_query": "\nSELECT employees.name, departments.name as department_name\nFROM employees\nJOIN departments ON employees.department_id = departments.id;\n",
+      "order": 1
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 58,
+    "fields": {
+      "lesson": 29,
+      "title": "Calculate Department Statistics",
+      "instruction": "Write a query to calculate the average salary and employee count for each department.",
+      "hints": "Use GROUP BY with aggregate functions AVG() and COUNT().",
+      "initial_query": "-- Write your query here\n",
+      "solution_query": "\nSELECT department, AVG(salary) as average_salary, COUNT(*) as employee_count\nFROM employees\nGROUP BY department;\n",
+      "order": 2
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 59,
+    "fields": {
+      "lesson": 29,
+      "title": "Find Employees with Above Average Salary",
+      "instruction": "Write a query to find all employees whose salary is above the company average.",
+      "hints": "Use a subquery to calculate the average salary.",
+      "initial_query": "-- Write your query here\n",
+      "solution_query": "\nSELECT name, salary\nFROM employees\nWHERE salary > (SELECT AVG(salary) FROM employees);\n",
+      "order": 3
+    }
+  }
+]

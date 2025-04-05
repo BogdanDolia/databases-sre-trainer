@@ -1,0 +1,94 @@
+/* Custom styles for SQL Trainer */
+
+.sql-editor {
+    width: 100% !important;
+    min-height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: #f8f9fa;
+    color: #212529;
+    resize: vertical;
+}
+
+.results-table {
+    width: 100%;
+    overflow: auto;
+    margin-top: 20px;
+}
+
+.lesson-card {
+    margin-bottom: 20px;
+    transition: transform 0.2s;
+}
+
+.lesson-card:hover {
+    transform: translateY(-5px);
+}
+
+.exercise-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.exercise-item {
+    padding: 10px;
+    margin: 5px 0;
+    border-left: 3px solid #ddd;
+}
+
+.exercise-item:hover {
+    border-left-color: #007bff;
+    background-color: #f8f9fa;
+}
+
+.exercise-item.completed {
+    border-left-color: #28a745;
+}
+
+.completed-badge {
+    background-color: #28a745;
+}
+
+.markdown-content {
+    line-height: 1.6;
+}
+
+.markdown-content pre {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.correct-answer {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.incorrect-answer {
+    color: #dc3545;
+}
+
+.query-result {
+    max-height: 400px;
+    overflow: auto;
+}
+
+.error-message {
+    color: #dc3545;
+    font-family: monospace;
+    white-space: pre-wrap;
+}
+
+.nav-sidebar {
+    position: sticky;
+    top: 20px;
+}
+
+.progress-bar {
+    height: 5px;
+    margin-top: -5px;
+}

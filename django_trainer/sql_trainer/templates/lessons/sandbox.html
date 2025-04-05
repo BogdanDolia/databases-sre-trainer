@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block title %}SQL Sandbox - PostgreSQL SRE Trainer{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'lessons:index' %}">Lessons</a></li>
+                <li class="breadcrumb-item active">SQL Sandbox</li>
+            </ol>
+        </nav>
+        
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0 h4">SQL Sandbox</h2>
+            </div>
+            <div class="card-body">
+                <p>
+                    Use this sandbox environment to practice your SQL skills. Write and execute queries against 
+                    our PostgreSQL database. You can use any SQL command including CREATE TABLE, INSERT, UPDATE, DELETE, etc.
+                </p>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i> 
+                    You can use the SQL sandbox to practice any SQL concepts you've learned in the lessons.
+                    Feel free to create your own tables, insert data, and experiment with various SQL commands.
+                </div>
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Note: Any database changes you make here are persistent within your session. Be careful with 
+                    your commands, especially when dropping tables or databases.
+                </div>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h3 class="h5 mb-0">SQL Query Editor</h3>
+            </div>
+            <div class="card-body">
+                {% bootstrap_form form %}
+                
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                    <button class="btn btn-primary" id="execute-query-btn">
+                        <i class="fas fa-play me-2"></i> Execute Query
+                    </button>
+                    <button class="btn btn-outline-secondary" id="clear-query-btn">
+                        <i class="fas fa-eraser me-2"></i> Clear
+                    </button>
+                </div>
+                
+                <div id="query-error" class="mt-3 error-message" style="display: none;"></div>
+                
+                <div id="query-result" class="mt-3 query-result" style="display: none;">
+                    <h4 class="h6">Query Results:</h4>
+                    <div class="table-responsive results-table">
+                        <table class="table table-sm table-hover table-bordered">
+                            <thead class="table-light" id="result-thead"></thead>
+                            <tbody id="result-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const editorTextarea = document.querySelector('textarea[name="query"]');
+        const executeBtn = document.getElementById('execute-query-btn');
+        const clearBtn = document.getElementById('clear-query-btn');
+        const queryResult = document.getElementById('query-result');
+        const queryError = document.getElementById('query-error');
+        const resultThead = document.getElementById('result-thead');
+        const resultTbody = document.getElementById('result-tbody');
+        
+        // Execute query function
+        executeBtn.addEventListener('click', () => {
+            const query = editorTextarea.value.trim();
+            
+            if (!query) {
+                queryError.textContent = 'Please enter a SQL query.';
+                queryError.style.display = 'block';
+                queryResult.style.display = 'none';
+                return;
+            }
+            
+            queryError.style.display = 'none';
+            queryResult.style.display = 'none';
+            executeBtn.disabled = true;
+            executeBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Executing...';
+            
+            fetch('{% url "lessons:execute_query" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: query
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                executeBtn.disabled = false;
+                executeBtn.innerHTML = '<i class="fas fa-play me-2"></i> Execute Query';
+                
+                if (data.error) {
+                    queryError.textContent = data.error;
+                    queryError.style.display = 'block';
+                    return;
+                }
+                
+                // Show query results
+                resultThead.innerHTML = '';
+                resultTbody.innerHTML = '';
+                
+                // Create table header
+                const headerRow = document.createElement('tr');
+                data.columns.forEach(column => {
+                    const th = document.createElement('th');
+                    th.textContent = column;
+                    headerRow.appendChild(th);
+                });
+                resultThead.appendChild(headerRow);
+                
+                // Create table rows
+                data.rows.forEach(row => {
+                    const tr = document.createElement('tr');
+                    data.columns.forEach(column => {
+                        const td = document.createElement('td');
+                        td.textContent = row[column] !== null ? row[column] : 'NULL';
+                        tr.appendChild(td);
+                    });
+                    resultTbody.appendChild(tr);
+                });
+                
+                queryResult.style.display = 'block';
+            })
+            .catch(error => {
+                executeBtn.disabled = false;
+                executeBtn.innerHTML = '<i class="fas fa-play me-2"></i> Execute Query';
+                queryError.textContent = 'An error occurred while executing the query.';
+                queryError.style.display = 'block';
+                console.error('Error:', error);
+            });
+        });
+        
+        // Clear query function
+        clearBtn.addEventListener('click', () => {
+            // Clear the textarea
+            editorTextarea.value = '';
+            
+            queryResult.style.display = 'none';
+            queryError.style.display = 'none';
+        });
+    });
+</script>
+{% endblock %}

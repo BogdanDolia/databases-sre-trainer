@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}SQL Lessons - PostgreSQL SRE Trainer{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1 class="mb-4">SQL and Database SRE Lessons</h1>
+        <p class="lead">
+            Welcome to the PostgreSQL SRE Trainer! This interactive platform is designed to help you learn SQL 
+            and database management skills essential for Site Reliability Engineers working with PostgreSQL.
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    {% for lesson in lessons %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 lesson-card shadow-sm {% if lesson.id in completed_lessons %}border-success{% endif %}">
+                {% if lesson.id in completed_lessons %}
+                    <div class="card-header bg-success text-white">
+                        <i class="fas fa-check-circle me-2"></i> Completed
+                    </div>
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Lesson {{ lesson.order }}: {{ lesson.title }}</h5>
+                    <p class="card-text flex-grow-1">{{ lesson.content|truncatewords:30 }}</p>
+                    <a href="{% url 'lessons:lesson_detail' lesson.slug %}" class="btn btn-primary mt-auto">
+                        <i class="fas fa-book-open me-2"></i> Start Lesson
+                    </a>
+                </div>
+                
+                {% if lesson.exercises.count > 0 %}
+                    <div class="card-footer bg-light">
+                        <small class="text-muted">
+                            <i class="fas fa-tasks me-1"></i> 
+                            {{ lesson.exercises.count }} 
+                            Exercise{{ lesson.exercises.count|pluralize }}
+                        </small>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i> No lessons available yet. 
+                {% if user.is_staff %}
+                    Please create lessons through the <a href="{% url 'admin:lessons_lesson_add' %}" class="alert-link">admin panel</a>.
+                {% else %}
+                    Please check back later or contact an administrator to create lessons.
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <i class="fas fa-flask me-2"></i> SQL Sandbox
+            </div>
+            <div class="card-body">
+                <p>Want to practice your SQL skills freely? Use our SQL sandbox environment to write and execute queries against 
+                our PostgreSQL database without constraints.</p>
+                <a href="{% url 'lessons:sandbox' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-code me-2"></i> Open SQL Sandbox
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if user.is_staff %}
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <i class="fas fa-cogs me-2"></i> Database Management
+            </div>
+            <div class="card-body">
+                <p>As an administrator, you can manage the database:</p>
+                <div class="d-flex gap-2">
+                    <a href="{% url 'lessons:initialize_database' %}" class="btn btn-success">
+                        <i class="fas fa-database me-2"></i> Initialize Database
+                    </a>
+                    <a href="{% url 'lessons:reset_database' %}" class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i> Reset Database
+                    </a>
+                </div>
+                <div class="mt-2">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i> 
+                        Initialize Database: Create sample tables and data | 
+                        Reset Database: Clear all tables to start from scratch
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

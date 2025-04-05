@@ -1,0 +1,1 @@
+"""PostgreSQL SRE Trainer lessons app."""

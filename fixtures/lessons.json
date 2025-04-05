@@ -1,0 +1,39 @@
+[
+  {
+    "model": "lessons.lesson",
+    "pk": 1,
+    "fields": {
+      "title": "Basics of SQL",
+      "slug": "intro-to-sql",
+      "description": "Learn the basics of SQL querying with PostgreSQL",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <style>\n    p {\n      margin: 0;\n    }\n  </style>\n</head>\n<body>\n  <p>Each table has key columns:</p>\n  <p>Primary Key (PK): uniquely identifies a row.</p>\n  <p>Foreign Key (FK): references the primary key in another table.</p>\n  <p>Main SQL commands:</p>\n  <p>SELECT – retrieves data from tables.</p>\n  <p>FROM – specifies the table (or multiple tables if using JOIN).</p>\n  <p>WHERE – filters rows.</p>\n</body>\n</html>",
+      "order": 1
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 1,
+    "fields": {
+      "lesson": 1,
+      "title": "Create table employees",
+      "instruction": "",
+      "hints": "",
+      "initial_query": "CREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);",
+      "solution_query": "CREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);",
+      "order": 1
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 1,
+    "fields": {
+      "lesson": 2,
+      "title": "Insert employees",
+      "instruction": "INSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);",
+      "hints": "",
+      "initial_query": "",
+      "solution_query": "INSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);",
+      "order": 2
+    }
+  }
+]
