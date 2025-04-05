@@ -25,9 +25,9 @@
   },
   {
     "model": "lessons.exercise",
-    "pk": 1,
+    "pk": 2,
     "fields": {
-      "lesson": 2,
+      "lesson": 1,
       "title": "Insert employees",
       "instruction": "INSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);",
       "hints": "",
