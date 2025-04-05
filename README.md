@@ -111,3 +111,4 @@ The application uses the following environment variables for database connection
 - `DATABASE_USER`: postgres
 - `DATABASE_PASSWORD`: postgres
 - `DATABASE_PORT`: 5432
+
