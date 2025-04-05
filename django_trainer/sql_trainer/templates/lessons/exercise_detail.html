@@ -47,42 +47,39 @@
                 <h2 class="h4 mb-0">{{ exercise.title }}</h2>
             </div>
             <div class="card-body">
-                <!-- Debug area -->
-                <div class="alert alert-info mb-3">
-                    <strong>Debug Values:</strong><br>
-                    <strong>Instruction:</strong> <pre>{{ debug_instruction }}</pre><br>
-                    <strong>Hints:</strong> <pre>{{ debug_hints }}</pre>
-                </div>
-                
                 <div class="mb-4">
                     <h4>Instructions:</h4>
-                    <div class="p-3 bg-light border">{{ exercise.instruction|linebreaks }}</div>
+                    <div class="p-3 bg-light border" style="white-space: pre-wrap;">{{ exercise.instruction }}</div>
                 </div>
                 
-                {% if exercise.hints %}
                 <div class="mb-3">
-                    <button class="btn btn-sm btn-outline-info" type="button" id="hintButton">
+                    <button class="btn btn-sm btn-outline-info" type="button" id="hintBtn" onclick="toggleHint()">
                         <i class="fas fa-lightbulb me-1"></i> Show Hint
                     </button>
-                    <div id="hintsCollapse" style="display: none;" class="mt-2">
+                    <div id="hintDiv" style="display: none;" class="mt-2">
                         <div class="card card-body bg-light">
-                            <i class="fas fa-info-circle text-info me-2"></i> {{ exercise.hints }}
+                            <i class="fas fa-info-circle text-info me-2"></i> <span id="hintContent">{{ exercise.hints }}</span>
                         </div>
                     </div>
                 </div>
-                {% endif %}
                 
                 <script>
-                    document.getElementById('hintButton').addEventListener('click', function() {
-                        var hintsDiv = document.getElementById('hintsCollapse');
-                        if (hintsDiv.style.display === 'none') {
-                            hintsDiv.style.display = 'block';
-                            this.innerHTML = '<i class="fas fa-lightbulb me-1"></i> Hide Hint';
+                    function toggleHint() {
+                        var hintDiv = document.getElementById('hintDiv');
+                        var hintBtn = document.getElementById('hintBtn');
+                        
+                        if (hintDiv.style.display === 'none') {
+                            hintDiv.style.display = 'block';
+                            hintBtn.innerHTML = '<i class="fas fa-lightbulb me-1"></i> Hide Hint';
                         } else {
-                            hintsDiv.style.display = 'none';
-                            this.innerHTML = '<i class="fas fa-lightbulb me-1"></i> Show Hint';
+                            hintDiv.style.display = 'none';
+                            hintBtn.innerHTML = '<i class="fas fa-lightbulb me-1"></i> Show Hint';
                         }
-                    });
+                    }
+                    
+                    // For debugging
+                    console.log("Instruction: ", "{{ exercise.instruction|escapejs }}");
+                    console.log("Hints: ", "{{ exercise.hints|escapejs }}");
                 </script>
                 
                 {% if progress.completed %}
