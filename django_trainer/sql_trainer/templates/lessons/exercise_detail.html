@@ -47,9 +47,43 @@
                 <h2 class="h4 mb-0">{{ exercise.title }}</h2>
             </div>
             <div class="card-body">
-                <div class="mb-4">
-                    {{ exercise.description|safe }}
+                <!-- Debug area -->
+                <div class="alert alert-info mb-3">
+                    <strong>Debug Values:</strong><br>
+                    <strong>Instruction:</strong> <pre>{{ debug_instruction }}</pre><br>
+                    <strong>Hints:</strong> <pre>{{ debug_hints }}</pre>
                 </div>
+                
+                <div class="mb-4">
+                    <h4>Instructions:</h4>
+                    <div class="p-3 bg-light border">{{ exercise.instruction|linebreaks }}</div>
+                </div>
+                
+                {% if exercise.hints %}
+                <div class="mb-3">
+                    <button class="btn btn-sm btn-outline-info" type="button" id="hintButton">
+                        <i class="fas fa-lightbulb me-1"></i> Show Hint
+                    </button>
+                    <div id="hintsCollapse" style="display: none;" class="mt-2">
+                        <div class="card card-body bg-light">
+                            <i class="fas fa-info-circle text-info me-2"></i> {{ exercise.hints }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <script>
+                    document.getElementById('hintButton').addEventListener('click', function() {
+                        var hintsDiv = document.getElementById('hintsCollapse');
+                        if (hintsDiv.style.display === 'none') {
+                            hintsDiv.style.display = 'block';
+                            this.innerHTML = '<i class="fas fa-lightbulb me-1"></i> Hide Hint';
+                        } else {
+                            hintsDiv.style.display = 'none';
+                            this.innerHTML = '<i class="fas fa-lightbulb me-1"></i> Show Hint';
+                        }
+                    });
+                </script>
                 
                 {% if progress.completed %}
                     <div class="alert alert-success">
@@ -103,6 +137,11 @@
 
 {% block extra_js %}
 <script>
+    // Debug info
+    console.log('Exercise data:');
+    console.log('Title: {{ exercise.title }}');
+    console.log('Instruction: {{ exercise.instruction }}');
+    console.log('Hints: {{ exercise.hints }}');
     
     document.addEventListener('DOMContentLoaded', () => {
         const editorTextarea = document.querySelector('textarea[name="query"]');

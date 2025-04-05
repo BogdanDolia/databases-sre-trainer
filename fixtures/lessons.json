@@ -16,8 +16,8 @@
     "fields": {
       "lesson": 1,
       "title": "Create table employees",
-      "instruction": "",
-      "hints": "",
+      "instruction": "Create a table named 'employees' with the following columns:\n- employee_id: Serial primary key\n- first_name: VARCHAR(100)\n- last_name: VARCHAR(100)\n- salary: NUMERIC(10, 2)",
+      "hints": "Use the CREATE TABLE statement with appropriate data types and constraints.",
       "initial_query": "CREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);",
       "solution_query": "CREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);",
       "order": 1
@@ -25,12 +25,12 @@
   },
   {
     "model": "lessons.exercise",
-    "pk": 1,
+    "pk": 2,
     "fields": {
-      "lesson": 2,
+      "lesson": 1,
       "title": "Insert employees",
-      "instruction": "INSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);",
-      "hints": "",
+      "instruction": "Insert the following employees into the employees table:\n- Alice Smith with salary 45000\n- Bob Jones with salary 55000\n- Charlie Brown with salary 60000",
+      "hints": "Use the INSERT INTO statement with the VALUES keyword. You can insert multiple rows by separating each set of values with a comma.",
       "initial_query": "",
       "solution_query": "INSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);",
       "order": 2

@@ -79,11 +79,18 @@ def exercise_detail(request, lesson_slug, exercise_id):
     initial_query = progress.last_solution if progress.last_solution else exercise.initial_query
     form = QueryForm(initial_query=initial_query)
     
+    # Debug message in the console
+    print(f"Exercise debug info: id={exercise.id}, title={exercise.title}")
+    print(f"Instruction: '{exercise.instruction}'")
+    print(f"Hints: '{exercise.hints}'")
+    
     context = {
         'lesson': lesson,
         'exercise': exercise,
         'form': form,
         'progress': progress,
+        'debug_instruction': exercise.instruction,  # Added for debugging
+        'debug_hints': exercise.hints,  # Added for debugging
     }
     
     return render(request, 'lessons/exercise_detail.html', context)
