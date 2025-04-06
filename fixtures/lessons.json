@@ -1,7 +1,7 @@
 [
   {
     "model": "lessons.lesson",
-    "pk": 1,
+    "pk": 1001,
     "fields": {
       "title": "Basics of SQL",
       "slug": "intro-to-sql",
@@ -11,12 +11,23 @@
     }
   },
   {
+    "model": "lessons.lesson",
+    "pk": 1002,
+    "fields": {
+      "title": "Advanced SELECT syntax, sorting, filtering, JOIN",
+      "slug": "adv-sel-join-to-sql",
+      "description": "",
+      "content": "<h1>Lesson Objectives</h1>\n  <ul>\n    <li>Learn to filter data more flexibly (operators <code>BETWEEN</code>, <code>LIKE</code>, <code>IN</code>).</li>\n    <li>Sort query results (<code>ORDER BY</code>).</li>\n    <li>Understand the main types of <code>JOIN</code> (<code>INNER JOIN</code>, <code>LEFT JOIN</code>, <code>RIGHT JOIN</code>).</li>\n  </ul>\n\n  <h2>JOIN: Basics</h2>\n  <p><code>JOIN</code>s are used to combine data from multiple tables. Types:</p>\n  <ul>\n    <li><strong>INNER JOIN</strong>: returns only records that have matches in both tables.</li>\n    <li><strong>LEFT JOIN</strong>: returns all records from the left table + matching records from the right (if no match, columns from the right table will be <code>NULL</code>).</li>\n    <li><strong>RIGHT JOIN</strong>: similar to the previous one, but reversed (all from the right + matching from the left).</li>\n  </ul>",
+      "order": 2
+    }
+  },
+  {
     "model": "lessons.exercise",
     "pk": 1,
     "fields": {
-      "lesson": 1,
-      "title": "Create employees",
-      "instruction": "  <h2>Create a table named <code>employees</code> with the following columns:</h2>\n  <ul>\n    <li><strong>employee_id:</strong> Serial primary key</li>\n    <li><strong>first_name:</strong> VARCHAR(100)</li>\n    <li><strong>last_name:</strong> VARCHAR(100)</li>\n    <li><strong>salary:</strong> NUMERIC(10, 2)</li>\n  </ul>",
+      "lesson": 1001,
+      "title": "01. Create employees",
+      "instruction": "<h2>Create a table named <code>employees</code> with the following columns:</h2>\n  <ul>\n    <li><strong>employee_id:</strong> Serial primary key</li>\n    <li><strong>first_name:</strong> VARCHAR(100)</li>\n    <li><strong>last_name:</strong> VARCHAR(100)</li>\n    <li><strong>salary:</strong> NUMERIC(10, 2)</li>\n  </ul>",
       "hints": "<pre><code>\nCREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);\n</code></pre>",
       "initial_query": "",
       "solution_query": "CREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);",
@@ -27,8 +38,8 @@
     "model": "lessons.exercise",
     "pk": 2,
     "fields": {
-      "lesson": 1,
-      "title": "Insert employees",
+      "lesson": 1001,
+      "title": "02. Insert employees",
       "instruction": "<h2>Insert the following employees into the <code>employees</code> table:</h2>\n  <ul>\n    <li>Alice Smith with salary 45000</li>\n    <li>Bob Jones with salary 55000</li>\n    <li>Charlie Brown with salary 60000</li>\n  </ul>",
       "hints": "<pre><code>\nINSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);\n</code></pre>",
       "initial_query": "",
@@ -40,13 +51,26 @@
     "model": "lessons.exercise",
     "pk": 3,
     "fields": {
-      "lesson": 1,
-      "title": "Select employees",
+      "lesson": 1001,
+      "title": "03. Select employees",
       "instruction": "<h2>Practice selecting data from the <code>employees</code> table using SQL queries:</h2>\n<ul>\n  <li>Retrieve all columns for all employees.</li>\n  <li>Retrieve only the <code>first_name</code> and <code>salary</code> columns for all employees.</li>\n  <li>Retrieve all columns for employees with a salary greater than 50000.</li>\n</ul>",
       "hints": "<pre><code>\nSELECT * FROM employees;\nSELECT first_name,salary FROM employees;\nSELECT * FROM employees WHERE salary > 50000;\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT * FROM employees;\nSELECT first_name,salary FROM employees;\nSELECT * FROM employees WHERE salary > 50000;",
       "order": 3
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 4,
+    "fields": {
+      "lesson": 1002,
+      "title": "01. Create genres table",
+      "instruction": "<h2>Create a table named <code>genres</code> with the following columns:</h2>\n  <ul>\n    <li><strong>genre_id:</strong> Serial primary key</li>\n    <li><strong>name:</strong> VARCHAR(50), must not be NULL</li>\n  </ul>",
+      "hints": "<pre><code>\nCREATE TABLE\n    genres (\n        genre_id SERIAL PRIMARY KEY,\n        name VARCHAR(50) NOT NULL\n    );\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "CREATE TABLE\n    genres (\n        genre_id SERIAL PRIMARY KEY,\n        name VARCHAR(50) NOT NULL\n    );",
+      "order": 4
     }
   }
 ]
