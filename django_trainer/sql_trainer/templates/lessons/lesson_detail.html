@@ -56,10 +56,20 @@
             </ol>
         </nav>
         
-        <div class="card shadow-sm mb-4">
+        <div class="card shadow-sm mb-4 {% if lesson_completed %}border-success{% endif %}">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h2 class="mb-0">{{ lesson.title }}</h2>
+                {% if lesson_completed %}
+                <span class="badge bg-success">
+                    <i class="fas fa-check-circle me-1"></i> Lesson Completed
+                </span>
+                {% endif %}
             </div>
+            {% if lesson_completed %}
+            <div class="alert alert-success m-3 mb-0">
+                <i class="fas fa-trophy me-2"></i> Congratulations! You've completed all exercises in this lesson.
+            </div>
+            {% endif %}
             <div class="card-body markdown-content">
                 {{ lesson.content|safe }}
             </div>
@@ -302,6 +312,33 @@
                         // Update the data-exercise-solution attribute with the current query
                         if (exerciseLink) {
                             exerciseLink.dataset.exerciseSolution = query;
+                        }
+                        
+                        // Check if all exercises are now completed
+                        const allExerciseLinks = document.querySelectorAll('.exercise-link');
+                        const allCompleted = Array.from(allExerciseLinks).every(
+                            link => link.querySelector('.completed-badge')
+                        );
+                        
+                        if (allCompleted) {
+                            // Add lesson completion UI if not already present
+                            const lessonCard = document.querySelector('.card.shadow-sm.mb-4');
+                            if (lessonCard && !lessonCard.classList.contains('border-success')) {
+                                lessonCard.classList.add('border-success');
+                                
+                                // Add completion badge to header
+                                const cardHeader = lessonCard.querySelector('.card-header');
+                                const badge = document.createElement('span');
+                                badge.className = 'badge bg-success';
+                                badge.innerHTML = '<i class="fas fa-check-circle me-1"></i> Lesson Completed';
+                                cardHeader.appendChild(badge);
+                                
+                                // Add congratulations message
+                                const alertDiv = document.createElement('div');
+                                alertDiv.className = 'alert alert-success m-3 mb-0';
+                                alertDiv.innerHTML = '<i class="fas fa-trophy me-2"></i> Congratulations! You\'ve completed all exercises in this lesson.';
+                                cardHeader.after(alertDiv);
+                            }
                         }
                     } else {
                         correctAnswer.style.display = 'none';

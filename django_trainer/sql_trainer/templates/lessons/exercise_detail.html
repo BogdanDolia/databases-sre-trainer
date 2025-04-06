@@ -41,6 +41,12 @@
                 <li class="breadcrumb-item active">{{ exercise.title }}</li>
             </ol>
         </nav>
+        
+        {% if lesson_completed %}
+        <div class="alert alert-success mb-4">
+            <i class="fas fa-trophy me-2"></i> Congratulations! You've completed all exercises in this lesson.
+        </div>
+        {% endif %}
 
         <!-- Exercise Section -->
         <div class="card shadow-sm mb-4">
@@ -197,6 +203,20 @@
                         badge.className = 'badge rounded-pill ms-2 completed-badge';
                         badge.innerHTML = '<i class="fas fa-check"></i>';
                         exerciseTitle.appendChild(badge);
+                    }
+                    
+                    // If all exercises in the lesson are now completed, show the message
+                    if (data.lesson_completed) {
+                        // Add a lesson completion message if not already shown
+                        if (!document.querySelector('.alert.alert-success.mb-4')) {
+                            const successAlert = document.createElement('div');
+                            successAlert.className = 'alert alert-success mb-4';
+                            successAlert.innerHTML = '<i class="fas fa-trophy me-2"></i> Congratulations! You\'ve completed all exercises in this lesson.';
+                            
+                            // Insert after breadcrumb nav
+                            const breadcrumbNav = document.querySelector('nav[aria-label="breadcrumb"]');
+                            breadcrumbNav.after(successAlert);
+                        }
                     }
                 }
             })
