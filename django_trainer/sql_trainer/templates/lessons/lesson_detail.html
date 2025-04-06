@@ -208,10 +208,17 @@
                 exerciseDescription.innerHTML = link.dataset.exerciseDescription;
                 exerciseHints.innerHTML = link.dataset.exerciseHints;
                 
-                // Update query editor with the saved solution or initial query
-                if (link.dataset.exerciseSolution) {
+                // Check if the exercise is completed
+                const isCompleted = link.querySelector('.completed-badge');
+                
+                if (isCompleted) {
+                    // For completed exercises, leave the query editor empty
+                    sqlEditor.value = '';
+                } else if (link.dataset.exerciseSolution) {
+                    // For incomplete exercises with a saved solution
                     sqlEditor.value = link.dataset.exerciseSolution;
                 } else {
+                    // For incomplete exercises without a saved solution
                     sqlEditor.value = currentInitialQuery;
                 }
                 
@@ -311,8 +318,11 @@
                         
                         // Update the data-exercise-solution attribute with the current query
                         if (exerciseLink) {
-                            exerciseLink.dataset.exerciseSolution = query;
+                            exerciseLink.dataset.exerciseSolution = '';  // Clear the saved solution
                         }
+                        
+                        // Clear the SQL query text area
+                        sqlEditor.value = '';
                         
                         // Check if all exercises are now completed
                         const allExerciseLinks = document.querySelectorAll('.exercise-link');
@@ -344,7 +354,7 @@
                         correctAnswer.style.display = 'none';
                         incorrectAnswer.style.display = 'block';
                         
-                        // Still update the solution even if not correct
+                        // For incorrect answers, still save the query so the user can try again
                         const exerciseLink = document.querySelector(`[data-exercise-id="${currentExerciseId}"]`);
                         if (exerciseLink) {
                             exerciseLink.dataset.exerciseSolution = query;
@@ -363,8 +373,17 @@
         
         // Reset query function
         resetBtn.addEventListener('click', () => {
-            // Reset the textarea with the initial query for current exercise
-            sqlEditor.value = currentInitialQuery;
+            // Check if current exercise is completed
+            const currentExerciseLink = document.querySelector(`[data-exercise-id="${currentExerciseId}"]`);
+            const isCompleted = currentExerciseLink && currentExerciseLink.querySelector('.completed-badge');
+            
+            if (isCompleted) {
+                // For completed exercises, just clear the textarea
+                sqlEditor.value = '';
+            } else {
+                // For incomplete exercises, restore the initial query
+                sqlEditor.value = currentInitialQuery;
+            }
             
             queryResult.style.display = 'none';
             queryError.style.display = 'none';

@@ -205,6 +205,9 @@
                         exerciseTitle.appendChild(badge);
                     }
                     
+                    // Clear the SQL query text area once the exercise is completed
+                    document.getElementById('sql-query').value = '';
+                    
                     // If all exercises in the lesson are now completed, show the message
                     if (data.lesson_completed) {
                         // Add a lesson completion message if not already shown
@@ -231,8 +234,13 @@
         
         // Reset query function
         resetBtn.addEventListener('click', () => {
-            // Update the textarea with the initial query
-            editorTextarea.value = initialQuery;
+            // For completed exercises, just clear the textarea
+            if (document.querySelector('.completed-badge')) {
+                editorTextarea.value = '';
+            } else {
+                // For incomplete exercises, restore the initial query
+                editorTextarea.value = initialQuery;
+            }
             
             queryResult.style.display = 'none';
             queryError.style.display = 'none';
