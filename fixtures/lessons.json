@@ -72,5 +72,57 @@
       "solution_query": "CREATE TABLE\n    genres (\n        genre_id SERIAL PRIMARY KEY,\n        name VARCHAR(50) NOT NULL\n    );",
       "order": 4
     }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 5,
+    "fields": {
+      "lesson": 1002,
+      "title": "02. Insert genres",
+      "instruction": "<h2>Insert genres and create movies table</h2>\n<ul>\n  <li><strong>Step 1:</strong> Insert the following genres into the <code>genres</code> table:\n    <ul>\n      <li>Action</li>\n      <li>Comedy</li>\n      <li>Drama</li>\n      <li>Thriller</li>\n      <li>Horror</li>\n      <li>Fantasy</li>\n      <li>Science Fiction</li>\n      <li>Romance</li>\n      <li>Adventure</li>\n      <li>Animation</li>\n    </ul>\n  </li>\n  <li><strong>Step 2:</strong> Create a new table named <code>movies</code> with the following columns:\n    <ul>\n      <li><strong>movie_id:</strong> Serial primary key</li>\n      <li><strong>name:</strong> VARCHAR(100)</li>\n      <li><strong>year:</strong> SMALLINT</li>\n      <li><strong>availability:</strong> BOOLEAN</li>\n    </ul>\n  </li>\n</ul>",
+      "hints": "<pre><code>\nINSERT INTO\n    genres (name)\nVALUES\n    ('Action'),\n    ('Comedy'),\n    ('Drama'),\n    ('Thriller'),\n    ('Horror'),\n    ('Fantasy'),\n    ('Science Fiction'),\n    ('Romance'),\n    ('Adventure'),\n    ('Animation');\n\nCREATE TABLE\n    movies (\n        movie_id SERIAL PRIMARY KEY,\n        name VARCHAR(100),\n        year SMALLINT,\n        availability BOOLEAN\n    );\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "INSERT INTO\n    genres (name)\nVALUES\n    ('Action'),\n    ('Comedy'),\n    ('Drama'),\n    ('Thriller'),\n    ('Horror'),\n    ('Fantasy'),\n    ('Science Fiction'),\n    ('Romance'),\n    ('Adventure'),\n    ('Animation');\n\nCREATE TABLE\n    movies (\n        movie_id SERIAL PRIMARY KEY,\n        name VARCHAR(100),\n        year SMALLINT,\n        availability BOOLEAN\n    );\n",
+      "order": 5
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 6,
+    "fields": {
+      "lesson": 1002,
+      "title": "03. Insert movie data",
+      "instruction": "<h2>Insert Movie Data and Update Copy Availability</h2>\n<ul>\n  <li><strong>Step 1:</strong> Insert the following movies into the <code>movies</code> table with their respective <code>name</code>, <code>year</code>, and <code>availability</code>:\n    <ul>\n      <li>Inception (2010, TRUE)</li>\n      <li>The Matrix (1999, TRUE)</li>\n      <li>The Godfather (1972, TRUE)</li>\n      <li>Pulp Fiction (1994, TRUE)</li>\n      <li>The Shawshank Redemption (1994, TRUE)</li>\n      <li>Fight Club (1999, FALSE)</li>\n      <li>Forrest Gump (1994, TRUE)</li>\n      <li>The Dark Knight (2008, TRUE)</li>\n      <li>Avengers: Endgame (2019, FALSE)</li>\n      <li>Titanic (1997, TRUE)</li>\n      <li>Interstellar (2014, TRUE)</li>\n      <li>The Lion King (1994, TRUE)</li>\n      <li>Jurassic Park (1993, TRUE)</li>\n      <li>Star Wars: A New Hope (1977, TRUE)</li>\n      <li>Back to the Future (1985, TRUE)</li>\n    </ul>\n  </li>\n  <li><strong>Step 2:</strong> Alter the <code>movies</code> table to add a new column named <code>copy_available</code> of type INTEGER.</li>\n  <li><strong>Step 3:</strong> Update the <code>copy_available</code> column for each movie using a CASE expression with the following conditions:\n    <ul>\n      <li>If the movie is 'Fight Club' or 'Avengers: Endgame', set <code>copy_available</code> to 0.</li>\n      <li>If the movie is 'Interstellar', set it to 1.</li>\n      <li>If the movie is 'Star Wars: A New Hope', set it to 2.</li>\n      <li>If the movie is 'Back to the Future', set it to 5.</li>\n      <li>If the movie is 'The Matrix', set it to 7.</li>\n      <li>If the movie is 'Forrest Gump', set it to 9.</li>\n      <li>If the movie is 'Jurassic Park', set it to 8.</li>\n      <li>If the movie is 'Inception', set it to 3.</li>\n      <li>If the movie is 'The Dark Knight', leave it as NULL.</li>\n      <li>For all other movies, set a default value of 10.</li>\n    </ul>\n  </li>\n</ul>",
+      "hints": "<pre><code>\nINSERT INTO\n    movies (name, year, availability)\nVALUES\n    ('Inception', 2010, TRUE),\n    ('The Matrix', 1999, TRUE),\n    ('The Godfather', 1972, TRUE),\n    ('Pulp Fiction', 1994, TRUE),\n    ('The Shawshank Redemption', 1994, TRUE),\n    ('Fight Club', 1999, FALSE),\n    ('Forrest Gump', 1994, TRUE),\n    ('The Dark Knight', 2008, TRUE),\n    ('Avengers: Endgame', 2019, FALSE),\n    ('Titanic', 1997, TRUE),\n    ('Interstellar', 2014, TRUE),\n    ('The Lion King', 1994, TRUE),\n    ('Jurassic Park', 1993, TRUE),\n    ('Star Wars: A New Hope', 1977, TRUE),\n    ('Back to the Future', 1985, TRUE);\n\nALTER TABLE movies\nADD COLUMN copy_available INTEGER;\n\nUPDATE movies\nSET\n    copy_available = CASE\n        WHEN name = 'Fight Club' THEN 0\n        WHEN name = 'Avengers: Endgame' THEN 0\n        WHEN name = 'Interstellar' THEN 1\n        WHEN name = 'Star Wars: A New Hope' THEN 2\n        WHEN name = 'Back to the Future' THEN 5\n        WHEN name = 'The Matrix' THEN 7\n        WHEN name = 'Forrest Gump' THEN 9\n        WHEN name = 'Jurassic Park' THEN 8\n        WHEN name = 'Inception' THEN 3\n        WHEN name = 'The Dark Knight' THEN NULL\n        ELSE 10 -- Default value for unspecified movies\n    END;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "INSERT INTO\n    movies (name, year, availability)\nVALUES\n    ('Inception', 2010, TRUE),\n    ('The Matrix', 1999, TRUE),\n    ('The Godfather', 1972, TRUE),\n    ('Pulp Fiction', 1994, TRUE),\n    ('The Shawshank Redemption', 1994, TRUE),\n    ('Fight Club', 1999, FALSE),\n    ('Forrest Gump', 1994, TRUE),\n    ('The Dark Knight', 2008, TRUE),\n    ('Avengers: Endgame', 2019, FALSE),\n    ('Titanic', 1997, TRUE),\n    ('Interstellar', 2014, TRUE),\n    ('The Lion King', 1994, TRUE),\n    ('Jurassic Park', 1993, TRUE),\n    ('Star Wars: A New Hope', 1977, TRUE),\n    ('Back to the Future', 1985, TRUE);\n\nALTER TABLE movies\nADD COLUMN copy_available INTEGER;\n\nUPDATE movies\nSET\n    copy_available = CASE\n        WHEN name = 'Fight Club' THEN 0\n        WHEN name = 'Avengers: Endgame' THEN 0\n        WHEN name = 'Interstellar' THEN 1\n        WHEN name = 'Star Wars: A New Hope' THEN 2\n        WHEN name = 'Back to the Future' THEN 5\n        WHEN name = 'The Matrix' THEN 7\n        WHEN name = 'Forrest Gump' THEN 9\n        WHEN name = 'Jurassic Park' THEN 8\n        WHEN name = 'Inception' THEN 3\n        WHEN name = 'The Dark Knight' THEN NULL\n        ELSE 10 -- Default value for unspecified movies\n    END;\n",
+      "order": 6
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 7,
+    "fields": {
+      "lesson": 1002,
+      "title": "04. Create movie_genres join table",
+      "instruction": "<h2>Create movie_genres join table</h2>\n<ul>\n  <li><strong>Step 1:</strong> Create a new table named <code>movie_genres</code> with the following columns:\n    <ul>\n      <li><strong>movie_id:</strong> INTEGER, foreign key referencing <code>movies(movie_id)</code> with ON DELETE CASCADE</li>\n      <li><strong>genre_id:</strong> INTEGER, foreign key referencing <code>genres(genre_id)</code></li>\n    </ul>\n  </li>\n  <li><strong>Step 2:</strong> Set the combination of <code>movie_id</code> and <code>genre_id</code> as the primary key.</li>\n</ul>",
+      "hints": "<pre><code>\nCREATE TABLE\n    movie_genres (\n        movie_id INT REFERENCES movies (movie_id) ON DELETE CASCADE,\n        genre_id INT REFERENCES genres (genre_id),\n        PRIMARY KEY (movie_id, genre_id)\n    );\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "CREATE TABLE\n    movie_genres (\n        movie_id INT REFERENCES movies (movie_id) ON DELETE CASCADE,\n        genre_id INT REFERENCES genres (genre_id),\n        PRIMARY KEY (movie_id, genre_id)\n    );\n",
+      "order": 7
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 8,
+    "fields": {
+      "lesson": 1002,
+      "title": "05. Assign genres to the movies",
+      "instruction": "<h2>Assign genres to the movies</h2>\n<ul>\n  <li><strong>Step 1:</strong> Insert records into the <code>movie_genres</code> join table to map each movie to its respective genre.</li>\n  <li><strong>Step 2:</strong> Use the following mapping: \n    <ul>\n      <li>Inception -> Science Fiction</li>\n      <li>The Matrix -> Science Fiction</li>\n      <li>The Godfather -> Drama</li>\n      <li>Pulp Fiction -> Drama</li>\n      <li>The Shawshank Redemption -> Drama</li>\n      <li>Fight Club -> Drama</li>\n      <li>Forrest Gump -> Drama</li>\n      <li>The Dark Knight -> Action</li>\n      <li>Avengers: Endgame -> Action</li>\n      <li>Titanic -> Romance</li>\n      <li>Interstellar -> Science Fiction</li>\n      <li>The Lion King -> Animation</li>\n      <li>Jurassic Park -> Action</li>\n      <li>Star Wars: A New Hope -> Action</li>\n      <li>Back to the Future -> Science Fiction</li>\n    </ul>\n  </li>\n</ul>",
+      "hints": "<pre><code>\nINSERT INTO\n    movie_genres (movie_id, genre_id)\nVALUES\n    (1, 7), -- Inception -> Science Fiction\n    (2, 7), -- The Matrix -> Science Fiction\n    (3, 3), -- The Godfather -> Drama\n    (4, 3), -- Pulp Fiction -> Drama\n    (5, 3), -- The Shawshank Redemption -> Drama\n    (6, 3), -- Fight Club -> Drama\n    (7, 3), -- Forrest Gump -> Drama\n    (8, 1), -- The Dark Knight -> Action\n    (9, 1), -- Avengers: Endgame -> Action\n    (10, 8), -- Titanic -> Romance\n    (11, 7), -- Interstellar -> Science Fiction\n    (12, 10), -- The Lion King -> Animation\n    (13, 1), -- Jurassic Park -> Action\n    (14, 1), -- Star Wars: A New Hope -> Action\n    (15, 7); -- Back to the Future -> Science Fiction\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "INSERT INTO\n    movie_genres (movie_id, genre_id)\nVALUES\n    (1, 7), -- Inception -> Science Fiction\n    (2, 7), -- The Matrix -> Science Fiction\n    (3, 3), -- The Godfather -> Drama\n    (4, 3), -- Pulp Fiction -> Drama\n    (5, 3), -- The Shawshank Redemption -> Drama\n    (6, 3), -- Fight Club -> Drama\n    (7, 3), -- Forrest Gump -> Drama\n    (8, 1), -- The Dark Knight -> Action\n    (9, 1), -- Avengers: Endgame -> Action\n    (10, 8), -- Titanic -> Romance\n    (11, 7), -- Interstellar -> Science Fiction\n    (12, 10), -- The Lion King -> Animation\n    (13, 1), -- Jurassic Park -> Action\n    (14, 1), -- Star Wars: A New Hope -> Action\n    (15, 7); -- Back to the Future -> Science Fiction\n",
+      "order": 8
+    }
   }
 ]
