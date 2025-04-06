@@ -40,19 +40,29 @@ def lesson_detail(request, slug):
     
     # Get progress if user is authenticated
     if request.user.is_authenticated:
-        progress = UserProgress.objects.filter(
+        progress_completed = UserProgress.objects.filter(
             user=request.user, 
             lesson=lesson,
             completed=True
         )
-        completed_exercises = set(p.exercise_id for p in progress)
+        completed_exercises = set(p.exercise_id for p in progress_completed)
+        
+        # Get all progress records to restore last solutions
+        all_progress = UserProgress.objects.filter(
+            user=request.user,
+            lesson=lesson
+        )
+        # Create dictionary of exercise_id -> last_solution
+        exercise_solutions = {p.exercise_id: p.last_solution for p in all_progress if p.last_solution}
     else:
         completed_exercises = set()
+        exercise_solutions = {}
     
     context = {
         'lesson': lesson,
         'exercises': exercises,
         'completed_exercises': completed_exercises,
+        'exercise_solutions': exercise_solutions,
     }
     
     return render(request, 'lessons/lesson_detail.html', context)

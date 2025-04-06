@@ -190,10 +190,14 @@
                     correctAnswer.style.display = 'block';
                     incorrectAnswer.style.display = 'none';
                     
-                    // Refresh the page after a short delay to update progress
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 2000);
+                    // Add a completion badge if not already present
+                    const exerciseTitle = document.getElementById('exercise-title');
+                    if (exerciseTitle && !exerciseTitle.querySelector('.completed-badge')) {
+                        const badge = document.createElement('span');
+                        badge.className = 'badge rounded-pill ms-2 completed-badge';
+                        badge.innerHTML = '<i class="fas fa-check"></i>';
+                        exerciseTitle.appendChild(badge);
+                    }
                 }
             })
             .catch(error => {

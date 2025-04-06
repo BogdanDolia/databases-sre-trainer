@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load lesson_extras %}
 
 {% block title %}{{ lesson.title }} - PostgreSQL SRE Trainer{% endblock %}
 
@@ -31,7 +32,8 @@
                            data-exercise-description="{{ exercise.instruction|safe }}"
                            data-exercise-hints="{{ exercise.hints|safe }}"
                            data-exercise-initial-query="{{ exercise.initial_query }}"
-                           data-exercise-slug="{{ lesson.slug }}">
+                           data-exercise-slug="{{ lesson.slug }}"
+                           data-exercise-solution="{% if exercise.id in exercise_solutions %}{{ exercise_solutions|get_item:exercise.id|escapejs }}{% endif %}">
                             {{ exercise.title }}
                             {% if exercise.id in completed_exercises %}
                                 <span class="badge rounded-pill completed-badge">
@@ -161,6 +163,27 @@
         let currentExerciseId = null;
         let currentInitialQuery = '';
         
+        // Try to load the last exercise from localStorage
+        const lastExerciseId = localStorage.getItem(`lesson_${window.location.pathname}_lastExercise`);
+        
+        // Function to save current exercise to localStorage
+        function saveCurrentExercise() {
+            if (currentExerciseId) {
+                localStorage.setItem(`lesson_${window.location.pathname}_lastExercise`, currentExerciseId);
+            }
+        }
+        
+        // Auto-select last viewed exercise if available
+        if (lastExerciseId) {
+            const lastExerciseLink = document.querySelector(`[data-exercise-id="${lastExerciseId}"]`);
+            if (lastExerciseLink) {
+                // Simulate a click on the last exercise
+                setTimeout(() => {
+                    lastExerciseLink.click();
+                }, 100);
+            }
+        }
+
         // Handle exercise selection
         document.querySelectorAll('.exercise-link').forEach(link => {
             link.addEventListener('click', (event) => {
@@ -175,8 +198,12 @@
                 exerciseDescription.innerHTML = link.dataset.exerciseDescription;
                 exerciseHints.innerHTML = link.dataset.exerciseHints;
                 
-                // Update query editor with initial query
-                sqlEditor.value = currentInitialQuery;
+                // Update query editor with the saved solution or initial query
+                if (link.dataset.exerciseSolution) {
+                    sqlEditor.value = link.dataset.exerciseSolution;
+                } else {
+                    sqlEditor.value = currentInitialQuery;
+                }
                 
                 // Clear previous results
                 queryResult.style.display = 'none';
@@ -185,6 +212,9 @@
                 
                 // Make sure query editor is visible
                 document.getElementById('query-editor').style.display = 'block';
+                
+                // Save current exercise to localStorage
+                saveCurrentExercise();
             });
         });
         
@@ -268,9 +298,20 @@
                             badge.innerHTML = '<i class="fas fa-check"></i>';
                             exerciseLink.appendChild(badge);
                         }
+                        
+                        // Update the data-exercise-solution attribute with the current query
+                        if (exerciseLink) {
+                            exerciseLink.dataset.exerciseSolution = query;
+                        }
                     } else {
                         correctAnswer.style.display = 'none';
                         incorrectAnswer.style.display = 'block';
+                        
+                        // Still update the solution even if not correct
+                        const exerciseLink = document.querySelector(`[data-exercise-id="${currentExerciseId}"]`);
+                        if (exerciseLink) {
+                            exerciseLink.dataset.exerciseSolution = query;
+                        }
                     }
                 }
             })
