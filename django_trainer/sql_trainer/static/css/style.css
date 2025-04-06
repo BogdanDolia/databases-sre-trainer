@@ -1,16 +1,34 @@
 /* Custom styles for SQL Trainer */
 
+/* Color variables for light/dark mode */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --card-bg: #ffffff;
+    --card-header-bg: #f8f9fa;
+    --border-color: #dee2e6;
+    --input-bg: #f8f9fa;
+    --input-border: #ddd;
+    --primary-color: #007bff;
+    --code-bg: #f8f9fa;
+    --hint-bg: #e9ecef;
+    --query-editor-bg: #f8f9fa;
+    --result-table-header-bg: #e9ecef;
+    --query-success-bg: #d4edda;
+    --query-error-bg: #f8d7da;
+}
+
 .sql-editor {
     width: 100% !important;
     min-height: 200px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--input-border);
     border-radius: 4px;
     padding: 10px;
     font-family: 'Courier New', monospace;
     font-size: 14px;
     line-height: 1.5;
-    background-color: #f8f9fa;
-    color: #212529;
+    background-color: var(--input-bg);
+    color: var(--text-color);
     resize: vertical;
 }
 
@@ -91,4 +109,183 @@
 .progress-bar {
     height: 5px;
     margin-top: -5px;
+}
+
+/* Dark mode styling */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --card-bg: #1e1e1e;
+        --card-header-bg: #2d2d2d;
+        --border-color: #444444;
+        --input-bg: #2d2d2d;
+        --input-border: #444444;
+        --primary-color: #3d8bfd;
+        --code-bg: #2d2d2d;
+        --hint-bg: #2d2d2d;
+        --query-editor-bg: #2d2d2d;
+        --result-table-header-bg: #333333;
+        --query-success-bg: #1e3a2d;
+        --query-error-bg: #3a1e1e;
+    }
+
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    .card {
+        background-color: var(--card-bg);
+        border-color: var(--border-color);
+    }
+
+    .card-header:not(.bg-primary):not(.bg-dark):not(.bg-info):not(.bg-success) {
+        background-color: var(--card-header-bg);
+        border-color: var(--border-color);
+        color: var(--text-color);
+    }
+
+    .form-control, .sql-editor {
+        background-color: var(--input-bg);
+        border-color: var(--input-border);
+        color: var(--text-color);
+    }
+
+    .table {
+        color: var(--text-color);
+        border-color: var(--border-color);
+    }
+
+    .table th, .table td {
+        border-color: var(--border-color);
+    }
+
+    .table-light {
+        background-color: var(--result-table-header-bg);
+    }
+
+    .markdown-content pre, pre, code {
+        background-color: var(--code-bg);
+        color: var(--text-color);
+        border-color: var(--border-color);
+    }
+
+    .alert-success {
+        background-color: var(--query-success-bg);
+        border-color: #2d6a44;
+        color: #d4edda;
+    }
+
+    .alert-warning, .alert-danger {
+        background-color: var(--query-error-bg);
+        border-color: #6a2d2d;
+        color: #f8d7da;
+    }
+
+    /* Navigation items */
+    .navbar-dark {
+        background-color: #212529 !important;
+    }
+
+    .list-group-item {
+        background-color: var(--card-bg);
+        border-color: var(--border-color);
+        color: var(--text-color);
+    }
+
+    .list-group-item.active {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        color: white;
+    }
+
+    /* Bootstrap components */
+    .dropdown-menu {
+        background-color: var(--card-bg);
+        border-color: var(--border-color);
+    }
+
+    .dropdown-item {
+        color: var(--text-color);
+    }
+
+    .dropdown-item:hover {
+        background-color: var(--card-header-bg);
+    }
+
+    /* Links */
+    a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item) {
+        color: #6ea8fe;
+    }
+
+    a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item):hover {
+        color: #8bb9fe;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        background-color: var(--card-header-bg);
+    }
+
+    .breadcrumb-item a {
+        color: #6ea8fe;
+    }
+
+    /* Exercise styles */
+    .exercise-item:hover {
+        border-left-color: var(--primary-color);
+        background-color: var(--card-header-bg);
+    }
+
+    .exercise-item.completed {
+        border-left-color: #2d6a44;
+    }
+
+    .completed-badge {
+        background-color: #2d6a44;
+    }
+
+    /* Button tweaks */
+    .btn-outline-secondary {
+        color: #adb5bd;
+        border-color: #adb5bd;
+    }
+
+    .btn-outline-secondary:hover {
+        background-color: #4b5259;
+        border-color: #adb5bd;
+    }
+
+    /* Error messages */
+    .error-message {
+        color: #f8d7da;
+        background-color: var(--query-error-bg);
+        border: 1px solid #6a2d2d;
+    }
+    
+    /* Footer styling */
+    footer.bg-light {
+        background-color: var(--card-bg) !important;
+        color: var(--text-color);
+    }
+
+    /* Fix code blocks in instructions */
+    #exercise-description pre, #exercise-description code {
+        background-color: var(--code-bg);
+        color: var(--text-color);
+        border-color: var(--border-color);
+    }
+
+    /* Ensure that blockquotes and other elements are readable */
+    blockquote {
+        background-color: var(--card-header-bg);
+        border-left-color: var(--primary-color);
+    }
+
+    /* Fix the bg-light class which is used in various places */
+    .bg-light {
+        background-color: var(--card-header-bg) !important;
+        color: var(--text-color);
+    }
 }
