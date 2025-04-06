@@ -79,18 +79,23 @@ def exercise_detail(request, lesson_slug, exercise_id):
     initial_query = progress.last_solution if progress.last_solution else exercise.initial_query
     form = QueryForm(initial_query=initial_query)
     
-    # Debug message in the console
-    print(f"Exercise debug info: id={exercise.id}, title={exercise.title}")
-    print(f"Instruction: '{exercise.instruction}'")
-    print(f"Hints: '{exercise.hints}'")
+    # ENHANCED DEBUG - print detailed information
+    print(f"====================== EXERCISE DEBUG INFO ======================")
+    print(f"Exercise ID: {exercise.id}")
+    print(f"Exercise Title: {exercise.title}")
+    print(f"Instruction (Length: {len(exercise.instruction)}): {repr(exercise.instruction)}")
+    print(f"Hints (Length: {len(exercise.hints)}): {repr(exercise.hints)}")
+    print(f"Initial Query (Length: {len(exercise.initial_query)}): {repr(exercise.initial_query)}")
+    print(f"================================================================")
     
+    # Create a fresh context with explicit strings for debugging
     context = {
         'lesson': lesson,
         'exercise': exercise,
         'form': form,
         'progress': progress,
-        'debug_instruction': exercise.instruction,  # Added for debugging
-        'debug_hints': exercise.hints,  # Added for debugging
+        'instruction_text': str(exercise.instruction),
+        'hints_text': str(exercise.hints),
     }
     
     return render(request, 'lessons/exercise_detail.html', context)

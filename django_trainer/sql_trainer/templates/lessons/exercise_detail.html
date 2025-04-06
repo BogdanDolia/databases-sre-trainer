@@ -42,68 +42,39 @@
             </ol>
         </nav>
 
+        <!-- Exercise Section -->
         <div class="card shadow-sm mb-4">
-            <div class="card-header bg-primary text-white">
-                <h2 class="h4 mb-0">{{ exercise.title }}</h2>
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h3 class="h5 mb-0" id="exercise-title">
+                    {{ exercise.title }}
+                </h3>
             </div>
             <div class="card-body">
-                <div class="mb-4">
-                    <h4>Instructions:</h4>
-                    <div class="p-3 bg-light border" style="white-space: pre-wrap;">{{ exercise.instruction }}</div>
+                <div id="exercise-description" class="mb-4">
+                    <!-- Instructions with HTML formatting allowed -->
+                    <div>{{ instruction_text|safe }}</div>
+                </div>
+
+                <div id="exercise-hints" class="mb-4">
+                    <!-- Instructions with HTML formatting allowed -->
+                    <div>{{ hints_text|safe }}</div>
                 </div>
                 
-                <div class="mb-3">
-                    <button class="btn btn-sm btn-outline-info" type="button" id="hintBtn" onclick="toggleHint()">
-                        <i class="fas fa-lightbulb me-1"></i> Show Hint
-                    </button>
-                    <div id="hintDiv" style="display: none;" class="mt-2">
-                        <div class="card card-body bg-light">
-                            <i class="fas fa-info-circle text-info me-2"></i> <span id="hintContent">{{ exercise.hints }}</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <script>
-                    function toggleHint() {
-                        var hintDiv = document.getElementById('hintDiv');
-                        var hintBtn = document.getElementById('hintBtn');
+                <div id="query-editor">
+                    <div class="form-group">
+                        <label for="sql-query">SQL Query:</label>
                         
-                        if (hintDiv.style.display === 'none') {
-                            hintDiv.style.display = 'block';
-                            hintBtn.innerHTML = '<i class="fas fa-lightbulb me-1"></i> Hide Hint';
-                        } else {
-                            hintDiv.style.display = 'none';
-                            hintBtn.innerHTML = '<i class="fas fa-lightbulb me-1"></i> Show Hint';
-                        }
-                    }
-                    
-                    // For debugging
-                    console.log("Instruction: ", "{{ exercise.instruction|escapejs }}");
-                    console.log("Hints: ", "{{ exercise.hints|escapejs }}");
-                </script>
-                
-                {% if progress.completed %}
-                    <div class="alert alert-success">
-                        <i class="fas fa-check-circle me-2"></i> You've completed this exercise!
+                        <textarea name="query" id="sql-query" class="sql-editor" rows="10" placeholder="Enter your SQL query here...">{{ exercise.initial_query }}</textarea>
                     </div>
-                {% endif %}
-            </div>
-        </div>
-        
-        <div class="card shadow-sm">
-            <div class="card-header bg-dark text-white">
-                <h3 class="h5 mb-0">SQL Query Editor</h3>
-            </div>
-            <div class="card-body">
-                {% bootstrap_form form %}
-                
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                    <button class="btn btn-primary" id="execute-query-btn">
-                        <i class="fas fa-play me-2"></i> Execute Query
-                    </button>
-                    <button class="btn btn-outline-secondary" id="reset-query-btn">
-                        <i class="fas fa-undo me-2"></i> Reset Query
-                    </button>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                        <button class="btn btn-primary" id="execute-query-btn">
+                            <i class="fas fa-play me-2"></i> Execute Query
+                        </button>
+                        <button class="btn btn-outline-secondary" id="reset-query-btn">
+                            <i class="fas fa-undo me-2"></i> Reset Query
+                        </button>
+                    </div>
                 </div>
                 
                 <div id="query-feedback" class="mt-3" style="display: none;">
@@ -134,12 +105,6 @@
 
 {% block extra_js %}
 <script>
-    // Debug info
-    console.log('Exercise data:');
-    console.log('Title: {{ exercise.title }}');
-    console.log('Instruction: {{ exercise.instruction }}');
-    console.log('Hints: {{ exercise.hints }}');
-    
     document.addEventListener('DOMContentLoaded', () => {
         const editorTextarea = document.querySelector('textarea[name="query"]');
         const executeBtn = document.getElementById('execute-query-btn');

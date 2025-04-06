@@ -6,7 +6,7 @@
       "title": "Basics of SQL",
       "slug": "intro-to-sql",
       "description": "Learn the basics of SQL querying with PostgreSQL",
-      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <style>\n    p {\n      margin: 0;\n    }\n  </style>\n</head>\n<body>\n  <p>Each table has key columns:</p>\n  <p>Primary Key (PK): uniquely identifies a row.</p>\n  <p>Foreign Key (FK): references the primary key in another table.</p>\n  <p>Main SQL commands:</p>\n  <p>SELECT – retrieves data from tables.</p>\n  <p>FROM – specifies the table (or multiple tables if using JOIN).</p>\n  <p>WHERE – filters rows.</p>\n</body>\n</html>",
+      "content": "<h2>Each table has key columns:</h2>\n  <ul>\n    <li><strong>Primary Key (PK):</strong> uniquely identifies a row.</li>\n    <li><strong>Foreign Key (FK):</strong> references the primary key in another table.</li>\n  </ul>\n\n  <h2>Main SQL commands:</h2>\n  <ul>\n    <li><strong>SELECT</strong> – retrieves data from tables.</li>\n    <li><strong>FROM</strong> – specifies the table (or multiple tables if using JOIN).</li>\n    <li><strong>WHERE</strong> – filters rows.</li>\n  </ul>",
       "order": 1
     }
   },
@@ -15,10 +15,10 @@
     "pk": 1,
     "fields": {
       "lesson": 1,
-      "title": "Create table employees",
-      "instruction": "Create a table named 'employees' with the following columns:\n- employee_id: Serial primary key\n- first_name: VARCHAR(100)\n- last_name: VARCHAR(100)\n- salary: NUMERIC(10, 2)",
-      "hints": "Use the CREATE TABLE statement with appropriate data types and constraints.",
-      "initial_query": "CREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);",
+      "title": "Create employees",
+      "instruction": "  <h2>Create a table named <code>employees</code> with the following columns:</h2>\n  <ul>\n    <li><strong>employee_id:</strong> Serial primary key</li>\n    <li><strong>first_name:</strong> VARCHAR(100)</li>\n    <li><strong>last_name:</strong> VARCHAR(100)</li>\n    <li><strong>salary:</strong> NUMERIC(10, 2)</li>\n  </ul>",
+      "hints": "<pre><code>\nCREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n</code></pre>);",
+      "initial_query": "",
       "solution_query": "CREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);",
       "order": 1
     }
@@ -29,8 +29,8 @@
     "fields": {
       "lesson": 1,
       "title": "Insert employees",
-      "instruction": "Insert the following employees into the employees table:\n- Alice Smith with salary 45000\n- Bob Jones with salary 55000\n- Charlie Brown with salary 60000",
-      "hints": "Use the INSERT INTO statement with the VALUES keyword. You can insert multiple rows by separating each set of values with a comma.",
+      "instruction": "<h2>Insert the following employees into the <code>employees</code> table:</h2>\n  <ul>\n    <li>Alice Smith with salary 45000</li>\n    <li>Bob Jones with salary 55000</li>\n    <li>Charlie Brown with salary 60000</li>\n  </ul>",
+      "hints": "<pre><code>\nINSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);\n</code></pre>",
       "initial_query": "",
       "solution_query": "INSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);",
       "order": 2
