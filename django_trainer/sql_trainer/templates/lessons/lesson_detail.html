@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load lesson_extras %}
 
 {% block title %}{{ lesson.title }} - PostgreSQL SRE Trainer{% endblock %}
 
@@ -31,7 +32,8 @@
                            data-exercise-description="{{ exercise.instruction|safe }}"
                            data-exercise-hints="{{ exercise.hints|safe }}"
                            data-exercise-initial-query="{{ exercise.initial_query }}"
-                           data-exercise-slug="{{ lesson.slug }}">
+                           data-exercise-slug="{{ lesson.slug }}"
+                           data-exercise-solution="{% if exercise.id in exercise_solutions %}{{ exercise_solutions|get_item:exercise.id|escapejs }}{% endif %}">
                             {{ exercise.title }}
                             {% if exercise.id in completed_exercises %}
                                 <span class="badge rounded-pill completed-badge">
@@ -54,10 +56,20 @@
             </ol>
         </nav>
         
-        <div class="card shadow-sm mb-4">
+        <div class="card shadow-sm mb-4 {% if lesson_completed %}border-success{% endif %}">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h2 class="mb-0">{{ lesson.title }}</h2>
+                {% if lesson_completed %}
+                <span class="badge bg-success">
+                    <i class="fas fa-check-circle me-1"></i> Lesson Completed
+                </span>
+                {% endif %}
             </div>
+            {% if lesson_completed %}
+            <div class="alert alert-success m-3 mb-0">
+                <i class="fas fa-trophy me-2"></i> Congratulations! You've completed all exercises in this lesson.
+            </div>
+            {% endif %}
             <div class="card-body markdown-content">
                 {{ lesson.content|safe }}
             </div>
@@ -161,6 +173,27 @@
         let currentExerciseId = null;
         let currentInitialQuery = '';
         
+        // Try to load the last exercise from localStorage
+        const lastExerciseId = localStorage.getItem(`lesson_${window.location.pathname}_lastExercise`);
+        
+        // Function to save current exercise to localStorage
+        function saveCurrentExercise() {
+            if (currentExerciseId) {
+                localStorage.setItem(`lesson_${window.location.pathname}_lastExercise`, currentExerciseId);
+            }
+        }
+        
+        // Auto-select last viewed exercise if available
+        if (lastExerciseId) {
+            const lastExerciseLink = document.querySelector(`[data-exercise-id="${lastExerciseId}"]`);
+            if (lastExerciseLink) {
+                // Simulate a click on the last exercise
+                setTimeout(() => {
+                    lastExerciseLink.click();
+                }, 100);
+            }
+        }
+
         // Handle exercise selection
         document.querySelectorAll('.exercise-link').forEach(link => {
             link.addEventListener('click', (event) => {
@@ -175,8 +208,19 @@
                 exerciseDescription.innerHTML = link.dataset.exerciseDescription;
                 exerciseHints.innerHTML = link.dataset.exerciseHints;
                 
-                // Update query editor with initial query
-                sqlEditor.value = currentInitialQuery;
+                // Check if the exercise is completed
+                const isCompleted = link.querySelector('.completed-badge');
+                
+                if (isCompleted) {
+                    // For completed exercises, leave the query editor empty
+                    sqlEditor.value = '';
+                } else if (link.dataset.exerciseSolution) {
+                    // For incomplete exercises with a saved solution
+                    sqlEditor.value = link.dataset.exerciseSolution;
+                } else {
+                    // For incomplete exercises without a saved solution
+                    sqlEditor.value = currentInitialQuery;
+                }
                 
                 // Clear previous results
                 queryResult.style.display = 'none';
@@ -185,6 +229,9 @@
                 
                 // Make sure query editor is visible
                 document.getElementById('query-editor').style.display = 'block';
+                
+                // Save current exercise to localStorage
+                saveCurrentExercise();
             });
         });
         
@@ -268,9 +315,50 @@
                             badge.innerHTML = '<i class="fas fa-check"></i>';
                             exerciseLink.appendChild(badge);
                         }
+                        
+                        // Update the data-exercise-solution attribute with the current query
+                        if (exerciseLink) {
+                            exerciseLink.dataset.exerciseSolution = '';  // Clear the saved solution
+                        }
+                        
+                        // Clear the SQL query text area
+                        sqlEditor.value = '';
+                        
+                        // Check if all exercises are now completed
+                        const allExerciseLinks = document.querySelectorAll('.exercise-link');
+                        const allCompleted = Array.from(allExerciseLinks).every(
+                            link => link.querySelector('.completed-badge')
+                        );
+                        
+                        if (allCompleted) {
+                            // Add lesson completion UI if not already present
+                            const lessonCard = document.querySelector('.card.shadow-sm.mb-4');
+                            if (lessonCard && !lessonCard.classList.contains('border-success')) {
+                                lessonCard.classList.add('border-success');
+                                
+                                // Add completion badge to header
+                                const cardHeader = lessonCard.querySelector('.card-header');
+                                const badge = document.createElement('span');
+                                badge.className = 'badge bg-success';
+                                badge.innerHTML = '<i class="fas fa-check-circle me-1"></i> Lesson Completed';
+                                cardHeader.appendChild(badge);
+                                
+                                // Add congratulations message
+                                const alertDiv = document.createElement('div');
+                                alertDiv.className = 'alert alert-success m-3 mb-0';
+                                alertDiv.innerHTML = '<i class="fas fa-trophy me-2"></i> Congratulations! You\'ve completed all exercises in this lesson.';
+                                cardHeader.after(alertDiv);
+                            }
+                        }
                     } else {
                         correctAnswer.style.display = 'none';
                         incorrectAnswer.style.display = 'block';
+                        
+                        // For incorrect answers, still save the query so the user can try again
+                        const exerciseLink = document.querySelector(`[data-exercise-id="${currentExerciseId}"]`);
+                        if (exerciseLink) {
+                            exerciseLink.dataset.exerciseSolution = query;
+                        }
                     }
                 }
             })
@@ -285,8 +373,17 @@
         
         // Reset query function
         resetBtn.addEventListener('click', () => {
-            // Reset the textarea with the initial query for current exercise
-            sqlEditor.value = currentInitialQuery;
+            // Check if current exercise is completed
+            const currentExerciseLink = document.querySelector(`[data-exercise-id="${currentExerciseId}"]`);
+            const isCompleted = currentExerciseLink && currentExerciseLink.querySelector('.completed-badge');
+            
+            if (isCompleted) {
+                // For completed exercises, just clear the textarea
+                sqlEditor.value = '';
+            } else {
+                // For incomplete exercises, restore the initial query
+                sqlEditor.value = currentInitialQuery;
+            }
             
             queryResult.style.display = 'none';
             queryError.style.display = 'none';

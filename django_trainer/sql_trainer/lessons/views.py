@@ -17,13 +17,24 @@ def index(request):
     lessons = Lesson.objects.all().order_by('order')
     
     # Get progress if user is authenticated
+    completed_lessons = set()
+    completed_exercises = set()
+    
     if request.user.is_authenticated:
         progress = UserProgress.objects.filter(user=request.user, completed=True)
-        completed_lessons = set(p.lesson_id for p in progress)
         completed_exercises = set(p.exercise_id for p in progress if p.exercise)
-    else:
-        completed_lessons = set()
-        completed_exercises = set()
+        
+        # Check which lessons have all exercises completed
+        for lesson in lessons:
+            lesson_exercises = lesson.exercises.all()
+            if lesson_exercises.count() > 0:  # Only consider lessons with exercises
+                lesson_exercise_ids = set(ex.id for ex in lesson_exercises)
+                completed_lesson_exercise_ids = set(p.exercise_id for p in progress 
+                                                  if p.exercise and p.lesson_id == lesson.id)
+                
+                # If all exercises for this lesson are completed, mark the lesson as completed
+                if lesson_exercise_ids.issubset(completed_lesson_exercise_ids):
+                    completed_lessons.add(lesson.id)
     
     context = {
         'lessons': lessons,
@@ -40,19 +51,38 @@ def lesson_detail(request, slug):
     
     # Get progress if user is authenticated
     if request.user.is_authenticated:
-        progress = UserProgress.objects.filter(
+        progress_completed = UserProgress.objects.filter(
             user=request.user, 
             lesson=lesson,
             completed=True
         )
-        completed_exercises = set(p.exercise_id for p in progress)
+        completed_exercises = set(p.exercise_id for p in progress_completed)
+        
+        # Get all progress records to restore last solutions
+        all_progress = UserProgress.objects.filter(
+            user=request.user,
+            lesson=lesson
+        )
+        # Create dictionary of exercise_id -> last_solution
+        exercise_solutions = {p.exercise_id: p.last_solution for p in all_progress if p.last_solution}
+        
+        # Check if all exercises for this lesson are completed
+        lesson_completed = False
+        if exercises.count() > 0:  # Only consider lessons with exercises
+            lesson_exercise_ids = set(ex.id for ex in exercises)
+            if lesson_exercise_ids.issubset(completed_exercises):
+                lesson_completed = True
     else:
         completed_exercises = set()
+        exercise_solutions = {}
+        lesson_completed = False
     
     context = {
         'lesson': lesson,
         'exercises': exercises,
         'completed_exercises': completed_exercises,
+        'exercise_solutions': exercise_solutions,
+        'lesson_completed': lesson_completed,
     }
     
     return render(request, 'lessons/lesson_detail.html', context)
@@ -70,10 +100,26 @@ def exercise_detail(request, lesson_slug, exercise_id):
             exercise=exercise,
             defaults={'completed': False}
         )
+        
+        # Check if all exercises for this lesson are completed
+        all_exercises = lesson.exercises.all()
+        progress_completed = UserProgress.objects.filter(
+            user=request.user,
+            lesson=lesson,
+            completed=True
+        )
+        completed_exercises = set(p.exercise_id for p in progress_completed)
+        
+        lesson_completed = False
+        if all_exercises.count() > 0:
+            lesson_exercise_ids = set(ex.id for ex in all_exercises)
+            if lesson_exercise_ids.issubset(completed_exercises):
+                lesson_completed = True
     else:
         # For non-authenticated users, create a dummy progress object
         from types import SimpleNamespace
         progress = SimpleNamespace(completed=False, last_solution='')
+        lesson_completed = False
     
     # Get initial query from either user's last solution or the exercise default
     initial_query = progress.last_solution if progress.last_solution else exercise.initial_query
@@ -96,6 +142,7 @@ def exercise_detail(request, lesson_slug, exercise_id):
         'progress': progress,
         'instruction_text': str(exercise.instruction),
         'hints_text': str(exercise.hints),
+        'lesson_completed': lesson_completed if request.user.is_authenticated else False,
     }
     
     return render(request, 'lessons/exercise_detail.html', context)
@@ -164,15 +211,41 @@ def execute_query(request):
                         progress.completed_at = timezone.now()
                     
                     progress.save()
+                    
+                    # Check if all exercises for this lesson are now completed
+                    lesson_completed = False
+                    if is_correct:
+                        all_exercises = exercise.lesson.exercises.all()
+                        if all_exercises.count() > 0:
+                            lesson_exercise_ids = set(ex.id for ex in all_exercises)
+                            
+                            # Get all completed exercises after saving this one
+                            progress_completed = UserProgress.objects.filter(
+                                user=request.user,
+                                lesson=exercise.lesson,
+                                completed=True
+                            )
+                            completed_exercise_ids = set(p.exercise_id for p in progress_completed)
+                            
+                            # Check if all exercises are completed
+                            if lesson_exercise_ids.issubset(completed_exercise_ids):
+                                lesson_completed = True
                 
             except Exercise.DoesNotExist:
                 pass
         
-        return JsonResponse({
+        # Add lesson_completed value to the response if it exists
+        response_data = {
             'columns': columns,
             'rows': rows,
             'is_correct': is_correct
-        })
+        }
+        
+        # Add lesson_completed flag if it's been computed
+        if 'lesson_completed' in locals() and lesson_completed:
+            response_data['lesson_completed'] = lesson_completed
+            
+        return JsonResponse(response_data)
     
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)

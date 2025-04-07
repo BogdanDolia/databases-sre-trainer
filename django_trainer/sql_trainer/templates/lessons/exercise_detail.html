@@ -41,6 +41,12 @@
                 <li class="breadcrumb-item active">{{ exercise.title }}</li>
             </ol>
         </nav>
+        
+        {% if lesson_completed %}
+        <div class="alert alert-success mb-4">
+            <i class="fas fa-trophy me-2"></i> Congratulations! You've completed all exercises in this lesson.
+        </div>
+        {% endif %}
 
         <!-- Exercise Section -->
         <div class="card shadow-sm mb-4">
@@ -190,10 +196,31 @@
                     correctAnswer.style.display = 'block';
                     incorrectAnswer.style.display = 'none';
                     
-                    // Refresh the page after a short delay to update progress
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 2000);
+                    // Add a completion badge if not already present
+                    const exerciseTitle = document.getElementById('exercise-title');
+                    if (exerciseTitle && !exerciseTitle.querySelector('.completed-badge')) {
+                        const badge = document.createElement('span');
+                        badge.className = 'badge rounded-pill ms-2 completed-badge';
+                        badge.innerHTML = '<i class="fas fa-check"></i>';
+                        exerciseTitle.appendChild(badge);
+                    }
+                    
+                    // Clear the SQL query text area once the exercise is completed
+                    document.getElementById('sql-query').value = '';
+                    
+                    // If all exercises in the lesson are now completed, show the message
+                    if (data.lesson_completed) {
+                        // Add a lesson completion message if not already shown
+                        if (!document.querySelector('.alert.alert-success.mb-4')) {
+                            const successAlert = document.createElement('div');
+                            successAlert.className = 'alert alert-success mb-4';
+                            successAlert.innerHTML = '<i class="fas fa-trophy me-2"></i> Congratulations! You\'ve completed all exercises in this lesson.';
+                            
+                            // Insert after breadcrumb nav
+                            const breadcrumbNav = document.querySelector('nav[aria-label="breadcrumb"]');
+                            breadcrumbNav.after(successAlert);
+                        }
+                    }
                 }
             })
             .catch(error => {
@@ -207,8 +234,13 @@
         
         // Reset query function
         resetBtn.addEventListener('click', () => {
-            // Update the textarea with the initial query
-            editorTextarea.value = initialQuery;
+            // For completed exercises, just clear the textarea
+            if (document.querySelector('.completed-badge')) {
+                editorTextarea.value = '';
+            } else {
+                // For incomplete exercises, restore the initial query
+                editorTextarea.value = initialQuery;
+            }
             
             queryResult.style.display = 'none';
             queryError.style.display = 'none';
