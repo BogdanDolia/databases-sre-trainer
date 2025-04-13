@@ -62,8 +62,9 @@
                 </div>
 
                 <div id="exercise-hints" class="mb-4">
-                    <!-- Instructions with HTML formatting allowed -->
-                    <div>{{ hints_text|safe }}</div>
+                    <h4 class="h6 mb-3"><i class="fas fa-lightbulb me-2"></i>Hints:</h4>
+                    <!-- Hints with HTML formatting allowed -->
+                    <div id="hints-container">{{ hints_text|safe }}</div>
                 </div>
                 
                 <div id="query-editor">
@@ -124,6 +125,58 @@
         const resultTbody = document.getElementById('result-tbody');
         
         const initialQuery = `{{ exercise.initial_query|escapejs }}`;
+        
+        // Add copy buttons to all code blocks in hints
+        const addCopyButtons = () => {
+            const hintCodeBlocks = document.querySelectorAll('#hints-container pre');
+            
+            hintCodeBlocks.forEach((preElement, index) => {
+                // Create container div with relative position
+                const codeContainer = document.createElement('div');
+                codeContainer.className = 'code-container';
+                codeContainer.style.position = 'relative';
+                
+                // Clone the pre element
+                const preClone = preElement.cloneNode(true);
+                
+                // Insert the copied pre element into the container
+                codeContainer.appendChild(preClone);
+                
+                // Create and add the copy button
+                const copyBtn = document.createElement('button');
+                copyBtn.type = 'button';
+                copyBtn.className = 'btn btn-sm btn-outline-secondary copy-code-btn';
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                copyBtn.style.position = 'absolute';
+                copyBtn.style.top = '5px';
+                copyBtn.style.right = '5px';
+                copyBtn.style.zIndex = '100';
+                copyBtn.dataset.index = index;
+                
+                codeContainer.appendChild(copyBtn);
+                
+                // Replace the original pre element with the new container
+                preElement.parentNode.replaceChild(codeContainer, preElement);
+                
+                // Add event listener to the copy button
+                copyBtn.addEventListener('click', function() {
+                    const codeBlock = this.parentNode.querySelector('pre code');
+                    const codeText = codeBlock.textContent;
+                    
+                    // Copy to clipboard
+                    navigator.clipboard.writeText(codeText).then(() => {
+                        // Visual feedback
+                        this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        setTimeout(() => {
+                            this.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                        }, 2000);
+                    });
+                });
+            });
+        };
+        
+        // Call the function to add copy buttons
+        addCopyButtons();
         
         // Execute query function
         executeBtn.addEventListener('click', () => {
