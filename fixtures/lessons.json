@@ -137,5 +137,148 @@
       "solution_query": "SELECT\n    name,\n    year\nFROM\n    movies\nORDER BY\n    year DESC;\n",
       "order": 9
     }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 10,
+    "fields": {
+      "lesson": 1002,
+      "title": "07. Select Distinct Movie Years",
+      "instruction": "<h2>Select Distinct Movie Years</h2>\n<p>Write an SQL query that retrieves the distinct <code>year</code> values from the <code>movies</code> table.</p>",
+      "hints": "<pre><code>\nSELECT DISTINCT\n    year\nFROM\n    movies;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT DISTINCT\n    year\nFROM\n    movies;\n",
+      "order": 10
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 11,
+    "fields": {
+      "lesson": 1002,
+      "title": "08. Select Movies Between 1900 and 2000",
+      "instruction": "<h2>Select Movies Between 1900 and 2000</h2>\n<p>Write an SQL query that retrieves all columns from the <code>movies</code> table where the <code>year</code> is between 1900 and 2000.</p>",
+      "hints": "<pre><code>\nSELECT\n    *\nFROM\n    movies\nWHERE\n    year BETWEEN 1900 AND 2000;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    *\nFROM\n    movies\nWHERE\n    year BETWEEN 1900 AND 2000;\n",
+      "order": 11
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 12,
+    "fields": {
+      "lesson": 1002,
+      "title": "09. Select Movies with 'film' in their name",
+      "instruction": "<h2>Select Movies with 'film' in their name</h2>\n<p>Write an SQL query that retrieves all columns from the <code>movies</code> table where the <code>name</code> contains the substring 'film'.</p>",
+      "hints": "<pre><code>\nSELECT\n    *\nFROM\n    movies\nWHERE\n    name LIKE '%film%';\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    *\nFROM\n    movies\nWHERE\n    name LIKE '%film%';\n",
+      "order": 12
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 13,
+    "fields": {
+      "lesson": 1002,
+      "title": "10. Select Movies from 1999 or 2011",
+      "instruction": "<h2>Select Movies from 1999 or 2011</h2>\n<p>Write an SQL query that retrieves all columns from the <code>movies</code> table where the <code>year</code> is either 1999 or 2011.</p>",
+      "hints": "<pre><code>\nSELECT\n    *\nFROM\n    movies\nWHERE\n    year IN (1999, 2011);\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    *\nFROM\n    movies\nWHERE\n    year IN (1999, 2011);\n",
+      "order": 13
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 14,
+    "fields": {
+      "lesson": 1002,
+      "title": "11. Select Movies with Limit and Offset",
+      "instruction": "<h2>Select Movies with Limit and Offset</h2>\n<p>Write an SQL query that retrieves all columns from the <code>movies</code> table ordered by <code>year</code>, limited to 2 results with an offset of 1.</p>",
+      "hints": "<pre><code>\nSELECT\n    *\nFROM\n    movies\nORDER BY\n    year\nLIMIT\n    2\nOFFSET\n    1;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    *\nFROM\n    movies\nORDER BY\n    year\nLIMIT\n    2\nOFFSET\n    1;\n",
+      "order": 14
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 15,
+    "fields": {
+      "lesson": 1002,
+      "title": "12. Join Movies and Genres",
+      "instruction": "<h2>Join Movies and Genres</h2>\n<p>Write an SQL query that retrieves the movie name and genre name by joining the <code>movies</code>, <code>movie_genres</code>, and <code>genres</code> tables.</p>",
+      "hints": "<pre><code>\nSELECT\n    m.name AS movie_name,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    m.name AS movie_name,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id;\n",
+      "order": 15
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 16,
+    "fields": {
+      "lesson": 1002,
+      "title": "13. Count Movies per Genre",
+      "instruction": "<h2>Count Movies per Genre</h2>\n<p>Write an SQL query that retrieves the genre name and the count of movies associated with each genre by joining the <code>genres</code> and <code>movie_genres</code> tables. The results should be grouped by genre name and ordered by the count in descending order.</p>",
+      "hints": "<pre><code>\nSELECT\n    g.name AS genre_name,\n    COUNT(mg.movie_id) AS movie_count\nFROM\n    genres g\n    LEFT JOIN movie_genres mg ON g.genre_id = mg.genre_id\nGROUP BY\n    g.name\nORDER BY\n    movie_count DESC;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    g.name AS genre_name,\n    COUNT(mg.movie_id) AS movie_count\nFROM\n    genres g\n    LEFT JOIN movie_genres mg ON g.genre_id = mg.genre_id\nGROUP BY\n    g.name\nORDER BY\n    movie_count DESC;\n",
+      "order": 16
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 17,
+    "fields": {
+      "lesson": 1002,
+      "title": "14. Select Movies with Genre Information (1990-2000)",
+      "instruction": "<h2>Select Movies with Genre Information (1990-2000)</h2>\n<p>Write an SQL query that retrieves the movie name, release year, and genre name by joining the <code>movies</code>, <code>movie_genres</code>, and <code>genres</code> tables, filtering for movies released between 1990 and 2000.</p>",
+      "hints": "<pre><code>\nSELECT\n    m.name AS movie_name,\n    m.year AS release_year,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.year BETWEEN 1990 AND 2000;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    m.name AS movie_name,\n    m.year AS release_year,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.year BETWEEN 1990 AND 2000;\n",
+      "order": 17
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 18,
+    "fields": {
+      "lesson": 1002,
+      "title": "15. Select Movies with Name Starting with 'The'",
+      "instruction": "<h2>Select Movies with Name Starting with 'The'</h2>\n<p>Write an SQL query that retrieves the movie name and release year from the <code>movies</code> table where the <code>name</code> starts with 'The'.</p>",
+      "hints": "<pre><code>\nSELECT\n    m.name AS movie_name,\n    m.year AS release_year\nFROM\n    movies m\nWHERE\n    m.name LIKE 'The%';\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    m.name AS movie_name,\n    m.year AS release_year\nFROM\n    movies m\nWHERE\n    m.name LIKE 'The%';\n",
+      "order": 18
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 19,
+    "fields": {
+      "lesson": 1002,
+      "title": "16. Select Movies by Genre (Drama, Science Fiction)",
+      "instruction": "<h2>Select Movies by Genre (Drama, Science Fiction)</h2>\n<p>Write an SQL query that retrieves the movie name and genre name by joining the <code>movies</code>, <code>movie_genres</code>, and <code>genres</code> tables, filtering for movies whose genre is either 'Drama' or 'Science Fiction'.</p>",
+      "hints": "<pre><code>\nSELECT\n    m.name AS movie_name,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    g.name IN ('Drama', 'Science Fiction');\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    m.name AS movie_name,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    g.name IN ('Drama', 'Science Fiction');\n",
+      "order": 19
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 20,
+    "fields": {
+      "lesson": 1002,
+      "title": "17. Select Movies with Genre, Year, and Name Filters",
+      "instruction": "<h2>Select Movies with Genre, Year, and Name Filters</h2>\n<p>Write an SQL query that retrieves the movie name, release year, and genre name by joining the <code>movies</code>, <code>movie_genres</code>, and <code>genres</code> tables, filtering for movies released between 1990 and 2000, whose name starts with 'The', and whose genre is either 'Drama' or 'Science Fiction'.</p>",
+      "hints": "<pre><code>\nSELECT\n    m.name AS movie_name,\n    m.year AS release_year,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.year >= 1990\n    AND m.year <= 2000\n    AND m.name LIKE 'The%'\n    AND g.name IN ('Drama', 'Science Fiction');\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    m.name AS movie_name,\n    m.year AS release_year,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.year >= 1990\n    AND m.year <= 2000\n    AND m.name LIKE 'The%'\n    AND g.name IN ('Drama', 'Science Fiction');\n",
+      "order": 20
+    }
   }
 ]
