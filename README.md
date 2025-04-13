@@ -2,6 +2,53 @@
 
 An interactive web application for learning PostgreSQL, SQL commands, and database management concepts for Site Reliability Engineers.
 
+## Running Locally for Learning SQL
+
+### Prerequisites
+
+- Docker and Docker Compose installed on your system
+- Git (to clone this repository)
+
+### Starting the Application
+
+1. Clone this repository:
+   ```bash
+   git clone <repository-url>
+   cd databases-sre-trainer
+   ```
+
+2. Start the services:
+   ```bash
+   docker-compose up -d
+   ```
+
+3. The application will be available at http://localhost:8000
+4. Login to the admin interface at http://localhost:8000/admin (username: admin, password: admin)
+
+### Stopping the Application
+
+```bash
+docker-compose down
+```
+
+To remove all data including the database volume:
+
+```bash
+docker-compose down -v
+```
+
+### Connecting to the Database Directly
+
+You can connect to the database directly using any PostgreSQL client:
+
+```bash
+# Using psql from Docker
+docker exec -it postgres_db psql -U postgres -d sql_trainer
+
+# From your host machine
+psql -h localhost -p 5432 -U postgres -d sql_trainer
+```
+
 ## Project Overview
 
 This application provides a comprehensive platform for learning SQL and database management through interactive lessons and exercises. It allows users to execute SQL queries against a real PostgreSQL database and receive immediate feedback.
@@ -24,45 +71,13 @@ This application provides a comprehensive platform for learning SQL and database
 - **Containerization**: Docker and Docker Compose
 - **Frontend**: Bootstrap 5, JavaScript
 
-## Setup Instructions
+## Project Structure
 
-For detailed setup instructions, see [DOCKER_README.md](DOCKER_README.md).
-
-## Changes Made
-
-The following enhancements have been implemented in this version:
-
-1. **Fixed Database Connection Issues:**
-   - Added PostgreSQL client to the Django Docker image
-   - Enhanced entrypoint script with database connection health check
-   - Improved migrations handling
-
-2. **Enhanced Lesson User Interface:**
-   - Integrated SQL query editor directly on the lesson page
-   - Added dynamic exercise loading to improve user experience
-   - Improved feedback for query execution
-
-3. **Extended SQL Functionality:**
-   - Enabled support for all SQL commands (previously limited to SELECT queries)
-   - Added proper handling for non-SELECT queries
-   - Enhanced result display for different query types
-
-4. **Expanded Lessons and Exercises:**
-   - Added multiple lessons covering basic SQL, advanced queries, and database management
-   - Created various exercises with real-world examples
-   - Implemented option to start with an empty database or initialize with sample data
-
-5. **UI/UX Improvements:**
-   - Added clear error messages and query results
-   - Implemented interactive exercise selection
-   - Added real-time feedback for completed exercises
-   - Added database management buttons for admins
-
-6. **Database Management Features:**
-   - Start with empty database for pure learning experience
-   - Reset database button to clear all tables and start over
-   - Initialize database option to load sample data when needed
-   - Admin-only access to database management functions
+- `django_trainer/`: Django application code
+  - `sql_trainer/`: Main Django project
+  - `sql_trainer/lessons/`: App for SQL lessons and exercises
+  - `entrypoint.sh`: Startup script for the Django container
+- `docker-compose.yml`: Docker Compose configuration
 
 ## Running the Application
 
@@ -112,3 +127,8 @@ The application uses the following environment variables for database connection
 - `DATABASE_PASSWORD`: postgres
 - `DATABASE_PORT`: 5432
 
+## Troubleshooting
+
+- **Database Connection Issues**: Check if the PostgreSQL container is running (`docker ps`)
+- **Web Application Not Loading**: View logs with `docker-compose logs django_app`
+- **Database Initialization Errors**: Check logs with `docker-compose logs database`
