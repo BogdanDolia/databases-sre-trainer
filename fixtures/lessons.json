@@ -22,13 +22,24 @@
     }
   },
   {
+    "model": "lessons.lesson",
+    "pk": 1003,
+    "fields": {
+      "title": "Learn to use aggregate functions (COUNT, SUM, AVG, MIN, MAX) in queries. Understand the application of GROUP BY and HAVING operators",
+      "slug": "aggregate-func",
+      "description": "",
+      "content": "<h1>Aggregate Functions</h1>\n  <ul>\n    <li><code>COUNT()</code> – counts the number of rows.</li>\n    <li><code>SUM()</code> – sums the values of a column.</li>\n    <li><code>AVG()</code> – calculates the average value.</li>\n    <li><code>MIN()</code> / <code>MAX()</code> – finds the minimum and maximum values of a column.</li>\n  </ul>\n\n  <h2>Filtering Groups – <code>HAVING</code></h2>\n  <p><code>WHERE</code> filters individual rows, whereas <code>HAVING</code> filters already “grouped” data.</p>",
+      "order": 3
+    }
+  },
+  {
     "model": "lessons.exercise",
     "pk": 1,
     "fields": {
       "lesson": 1001,
       "title": "01. Create employees",
       "instruction": "<h2>Create a table named <code>employees</code> with the following columns:</h2>\n  <ul>\n    <li><strong>employee_id:</strong> Serial primary key</li>\n    <li><strong>first_name:</strong> VARCHAR(100)</li>\n    <li><strong>last_name:</strong> VARCHAR(100)</li>\n    <li><strong>salary:</strong> NUMERIC(10, 2)</li>\n  </ul>",
-      "hints": "<pre><code>\nCREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);\n</code></pre>",
+      "hints": "<pre><code>CREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);\n</code></pre>",
       "initial_query": "",
       "solution_query": "CREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);",
       "order": 1
@@ -41,7 +52,7 @@
       "lesson": 1001,
       "title": "02. Insert employees",
       "instruction": "<h2>Insert the following employees into the <code>employees</code> table:</h2>\n  <ul>\n    <li>Alice Smith with salary 45000</li>\n    <li>Bob Jones with salary 55000</li>\n    <li>Charlie Brown with salary 60000</li>\n  </ul>",
-      "hints": "<pre><code>\nINSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);\n</code></pre>",
+      "hints": "<pre><code>INSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);\n</code></pre>",
       "initial_query": "",
       "solution_query": "INSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);",
       "order": 2
@@ -54,7 +65,7 @@
       "lesson": 1001,
       "title": "03. Select employees",
       "instruction": "<h2>Practice selecting data from the <code>employees</code> table using SQL queries:</h2>\n<ul>\n  <li>Retrieve all columns for all employees.</li>\n  <li>Retrieve only the <code>first_name</code> and <code>salary</code> columns for all employees.</li>\n  <li>Retrieve all columns for employees with a salary greater than 50000.</li>\n</ul>",
-      "hints": "<pre><code>\nSELECT * FROM employees;\nSELECT first_name,salary FROM employees;\nSELECT * FROM employees WHERE salary > 50000;\n</code></pre>",
+      "hints": "<pre><code>SELECT * FROM employees;\nSELECT first_name,salary FROM employees;\nSELECT * FROM employees WHERE salary > 50000;\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT * FROM employees;\nSELECT first_name,salary FROM employees;\nSELECT * FROM employees WHERE salary > 50000;",
       "order": 3
@@ -67,7 +78,7 @@
       "lesson": 1002,
       "title": "01. Create genres table",
       "instruction": "<h2>Create a table named <code>genres</code> with the following columns:</h2>\n  <ul>\n    <li><strong>genre_id:</strong> Serial primary key</li>\n    <li><strong>name:</strong> VARCHAR(50), must not be NULL</li>\n  </ul>",
-      "hints": "<pre><code>\nCREATE TABLE\n    genres (\n        genre_id SERIAL PRIMARY KEY,\n        name VARCHAR(50) NOT NULL\n    );\n</code></pre>",
+      "hints": "<pre><code>CREATE TABLE\n    genres (\n        genre_id SERIAL PRIMARY KEY,\n        name VARCHAR(50) NOT NULL\n    );\n</code></pre>",
       "initial_query": "",
       "solution_query": "CREATE TABLE\n    genres (\n        genre_id SERIAL PRIMARY KEY,\n        name VARCHAR(50) NOT NULL\n    );",
       "order": 4
@@ -80,7 +91,7 @@
       "lesson": 1002,
       "title": "02. Insert genres",
       "instruction": "<h2>Insert genres and create movies table</h2>\n<ul>\n  <li><strong>Step 1:</strong> Insert the following genres into the <code>genres</code> table:\n    <ul>\n      <li>Action</li>\n      <li>Comedy</li>\n      <li>Drama</li>\n      <li>Thriller</li>\n      <li>Horror</li>\n      <li>Fantasy</li>\n      <li>Science Fiction</li>\n      <li>Romance</li>\n      <li>Adventure</li>\n      <li>Animation</li>\n    </ul>\n  </li>\n  <li><strong>Step 2:</strong> Create a new table named <code>movies</code> with the following columns:\n    <ul>\n      <li><strong>movie_id:</strong> Serial primary key</li>\n      <li><strong>name:</strong> VARCHAR(100)</li>\n      <li><strong>year:</strong> SMALLINT</li>\n      <li><strong>availability:</strong> BOOLEAN</li>\n    </ul>\n  </li>\n</ul>",
-      "hints": "<pre><code>\nINSERT INTO\n    genres (name)\nVALUES\n    ('Action'),\n    ('Comedy'),\n    ('Drama'),\n    ('Thriller'),\n    ('Horror'),\n    ('Fantasy'),\n    ('Science Fiction'),\n    ('Romance'),\n    ('Adventure'),\n    ('Animation');\n\nCREATE TABLE\n    movies (\n        movie_id SERIAL PRIMARY KEY,\n        name VARCHAR(100),\n        year SMALLINT,\n        availability BOOLEAN\n    );\n</code></pre>",
+      "hints": "<pre><code>INSERT INTO\n    genres (name)\nVALUES\n    ('Action'),\n    ('Comedy'),\n    ('Drama'),\n    ('Thriller'),\n    ('Horror'),\n    ('Fantasy'),\n    ('Science Fiction'),\n    ('Romance'),\n    ('Adventure'),\n    ('Animation');\n\nCREATE TABLE\n    movies (\n        movie_id SERIAL PRIMARY KEY,\n        name VARCHAR(100),\n        year SMALLINT,\n        availability BOOLEAN\n    );\n</code></pre>",
       "initial_query": "",
       "solution_query": "INSERT INTO\n    genres (name)\nVALUES\n    ('Action'),\n    ('Comedy'),\n    ('Drama'),\n    ('Thriller'),\n    ('Horror'),\n    ('Fantasy'),\n    ('Science Fiction'),\n    ('Romance'),\n    ('Adventure'),\n    ('Animation');\n\nCREATE TABLE\n    movies (\n        movie_id SERIAL PRIMARY KEY,\n        name VARCHAR(100),\n        year SMALLINT,\n        availability BOOLEAN\n    );\n",
       "order": 5
@@ -93,7 +104,7 @@
       "lesson": 1002,
       "title": "03. Insert movie data",
       "instruction": "<h2>Insert Movie Data and Update Copy Availability</h2>\n<ul>\n  <li><strong>Step 1:</strong> Insert the following movies into the <code>movies</code> table with their respective <code>name</code>, <code>year</code>, and <code>availability</code>:\n    <ul>\n      <li>Inception (2010, TRUE)</li>\n      <li>The Matrix (1999, TRUE)</li>\n      <li>The Godfather (1972, TRUE)</li>\n      <li>Pulp Fiction (1994, TRUE)</li>\n      <li>The Shawshank Redemption (1994, TRUE)</li>\n      <li>Fight Club (1999, FALSE)</li>\n      <li>Forrest Gump (1994, TRUE)</li>\n      <li>The Dark Knight (2008, TRUE)</li>\n      <li>Avengers: Endgame (2019, FALSE)</li>\n      <li>Titanic (1997, TRUE)</li>\n      <li>Interstellar (2014, TRUE)</li>\n      <li>The Lion King (1994, TRUE)</li>\n      <li>Jurassic Park (1993, TRUE)</li>\n      <li>Star Wars: A New Hope (1977, TRUE)</li>\n      <li>Back to the Future (1985, TRUE)</li>\n    </ul>\n  </li>\n  <li><strong>Step 2:</strong> Alter the <code>movies</code> table to add a new column named <code>copy_available</code> of type INTEGER.</li>\n  <li><strong>Step 3:</strong> Update the <code>copy_available</code> column for each movie using a CASE expression with the following conditions:\n    <ul>\n      <li>If the movie is 'Fight Club' or 'Avengers: Endgame', set <code>copy_available</code> to 0.</li>\n      <li>If the movie is 'Interstellar', set it to 1.</li>\n      <li>If the movie is 'Star Wars: A New Hope', set it to 2.</li>\n      <li>If the movie is 'Back to the Future', set it to 5.</li>\n      <li>If the movie is 'The Matrix', set it to 7.</li>\n      <li>If the movie is 'Forrest Gump', set it to 9.</li>\n      <li>If the movie is 'Jurassic Park', set it to 8.</li>\n      <li>If the movie is 'Inception', set it to 3.</li>\n      <li>If the movie is 'The Dark Knight', leave it as NULL.</li>\n      <li>For all other movies, set a default value of 10.</li>\n    </ul>\n  </li>\n</ul>",
-      "hints": "<pre><code>\nINSERT INTO\n    movies (name, year, availability)\nVALUES\n    ('Inception', 2010, TRUE),\n    ('The Matrix', 1999, TRUE),\n    ('The Godfather', 1972, TRUE),\n    ('Pulp Fiction', 1994, TRUE),\n    ('The Shawshank Redemption', 1994, TRUE),\n    ('Fight Club', 1999, FALSE),\n    ('Forrest Gump', 1994, TRUE),\n    ('The Dark Knight', 2008, TRUE),\n    ('Avengers: Endgame', 2019, FALSE),\n    ('Titanic', 1997, TRUE),\n    ('Interstellar', 2014, TRUE),\n    ('The Lion King', 1994, TRUE),\n    ('Jurassic Park', 1993, TRUE),\n    ('Star Wars: A New Hope', 1977, TRUE),\n    ('Back to the Future', 1985, TRUE);\n\nALTER TABLE movies\nADD COLUMN copy_available INTEGER;\n\nUPDATE movies\nSET\n    copy_available = CASE\n        WHEN name = 'Fight Club' THEN 0\n        WHEN name = 'Avengers: Endgame' THEN 0\n        WHEN name = 'Interstellar' THEN 1\n        WHEN name = 'Star Wars: A New Hope' THEN 2\n        WHEN name = 'Back to the Future' THEN 5\n        WHEN name = 'The Matrix' THEN 7\n        WHEN name = 'Forrest Gump' THEN 9\n        WHEN name = 'Jurassic Park' THEN 8\n        WHEN name = 'Inception' THEN 3\n        WHEN name = 'The Dark Knight' THEN NULL\n        ELSE 10 -- Default value for unspecified movies\n    END;\n</code></pre>",
+      "hints": "<pre><code>INSERT INTO\n    movies (name, year, availability)\nVALUES\n    ('Inception', 2010, TRUE),\n    ('The Matrix', 1999, TRUE),\n    ('The Godfather', 1972, TRUE),\n    ('Pulp Fiction', 1994, TRUE),\n    ('The Shawshank Redemption', 1994, TRUE),\n    ('Fight Club', 1999, FALSE),\n    ('Forrest Gump', 1994, TRUE),\n    ('The Dark Knight', 2008, TRUE),\n    ('Avengers: Endgame', 2019, FALSE),\n    ('Titanic', 1997, TRUE),\n    ('Interstellar', 2014, TRUE),\n    ('The Lion King', 1994, TRUE),\n    ('Jurassic Park', 1993, TRUE),\n    ('Star Wars: A New Hope', 1977, TRUE),\n    ('Back to the Future', 1985, TRUE);\n\nALTER TABLE movies\nADD COLUMN copy_available INTEGER;\n\nUPDATE movies\nSET\n    copy_available = CASE\n        WHEN name = 'Fight Club' THEN 0\n        WHEN name = 'Avengers: Endgame' THEN 0\n        WHEN name = 'Interstellar' THEN 1\n        WHEN name = 'Star Wars: A New Hope' THEN 2\n        WHEN name = 'Back to the Future' THEN 5\n        WHEN name = 'The Matrix' THEN 7\n        WHEN name = 'Forrest Gump' THEN 9\n        WHEN name = 'Jurassic Park' THEN 8\n        WHEN name = 'Inception' THEN 3\n        WHEN name = 'The Dark Knight' THEN NULL\n        ELSE 10 -- Default value for unspecified movies\n    END;\n</code></pre>",
       "initial_query": "",
       "solution_query": "INSERT INTO\n    movies (name, year, availability)\nVALUES\n    ('Inception', 2010, TRUE),\n    ('The Matrix', 1999, TRUE),\n    ('The Godfather', 1972, TRUE),\n    ('Pulp Fiction', 1994, TRUE),\n    ('The Shawshank Redemption', 1994, TRUE),\n    ('Fight Club', 1999, FALSE),\n    ('Forrest Gump', 1994, TRUE),\n    ('The Dark Knight', 2008, TRUE),\n    ('Avengers: Endgame', 2019, FALSE),\n    ('Titanic', 1997, TRUE),\n    ('Interstellar', 2014, TRUE),\n    ('The Lion King', 1994, TRUE),\n    ('Jurassic Park', 1993, TRUE),\n    ('Star Wars: A New Hope', 1977, TRUE),\n    ('Back to the Future', 1985, TRUE);\n\nALTER TABLE movies\nADD COLUMN copy_available INTEGER;\n\nUPDATE movies\nSET\n    copy_available = CASE\n        WHEN name = 'Fight Club' THEN 0\n        WHEN name = 'Avengers: Endgame' THEN 0\n        WHEN name = 'Interstellar' THEN 1\n        WHEN name = 'Star Wars: A New Hope' THEN 2\n        WHEN name = 'Back to the Future' THEN 5\n        WHEN name = 'The Matrix' THEN 7\n        WHEN name = 'Forrest Gump' THEN 9\n        WHEN name = 'Jurassic Park' THEN 8\n        WHEN name = 'Inception' THEN 3\n        WHEN name = 'The Dark Knight' THEN NULL\n        ELSE 10 -- Default value for unspecified movies\n    END;\n",
       "order": 6
@@ -106,7 +117,7 @@
       "lesson": 1002,
       "title": "04. Create movie_genres join table",
       "instruction": "<h2>Create movie_genres join table</h2>\n<ul>\n  <li><strong>Step 1:</strong> Create a new table named <code>movie_genres</code> with the following columns:\n    <ul>\n      <li><strong>movie_id:</strong> INTEGER, foreign key referencing <code>movies(movie_id)</code> with ON DELETE CASCADE</li>\n      <li><strong>genre_id:</strong> INTEGER, foreign key referencing <code>genres(genre_id)</code></li>\n    </ul>\n  </li>\n  <li><strong>Step 2:</strong> Set the combination of <code>movie_id</code> and <code>genre_id</code> as the primary key.</li>\n</ul>",
-      "hints": "<pre><code>\nCREATE TABLE\n    movie_genres (\n        movie_id INT REFERENCES movies (movie_id) ON DELETE CASCADE,\n        genre_id INT REFERENCES genres (genre_id),\n        PRIMARY KEY (movie_id, genre_id)\n    );\n</code></pre>",
+      "hints": "<pre><code>CREATE TABLE\n    movie_genres (\n        movie_id INT REFERENCES movies (movie_id) ON DELETE CASCADE,\n        genre_id INT REFERENCES genres (genre_id),\n        PRIMARY KEY (movie_id, genre_id)\n    );\n</code></pre>",
       "initial_query": "",
       "solution_query": "CREATE TABLE\n    movie_genres (\n        movie_id INT REFERENCES movies (movie_id) ON DELETE CASCADE,\n        genre_id INT REFERENCES genres (genre_id),\n        PRIMARY KEY (movie_id, genre_id)\n    );\n",
       "order": 7
@@ -119,7 +130,7 @@
       "lesson": 1002,
       "title": "05. Assign genres to the movies",
       "instruction": "<h2>06. Assign Genres to Movies</h2>\n<p>In this exercise, you will establish relationships between movies and their corresponding genres using the <code>movie_genres</code> join table.</p>\n<ol>\n  <li><strong>Identify the Associations:</strong> Determine the correct genre for each movie using the mapping provided below.</li>\n  <li><strong>Insert the Records:</strong> For each movie, insert a record into the <code>movie_genres</code> table with the appropriate <code>movie_id</code> and <code>genre_id</code>.</li>\n</ol>\n<p><strong>Mapping:</strong></p>\n<ul>\n  <li>Inception → Science Fiction</li>\n  <li>The Matrix → Science Fiction</li>\n  <li>The Godfather → Drama</li>\n  <li>Pulp Fiction → Drama</li>\n  <li>The Shawshank Redemption → Drama</li>\n  <li>Fight Club → Drama</li>\n  <li>Forrest Gump → Drama</li>\n  <li>The Dark Knight → Action</li>\n  <li>Avengers: Endgame → Action</li>\n  <li>Titanic → Romance</li>\n  <li>Interstellar → Science Fiction</li>\n  <li>The Lion King → Animation</li>\n  <li>Jurassic Park → Action</li>\n  <li>Star Wars: A New Hope → Action</li>\n  <li>Back to the Future → Science Fiction</li>\n</ul>\n<p><strong>Verification:</strong> Confirm that each <code>(movie_id, genre_id)</code> pair is inserted correctly and uniquely in the <code>movie_genres</code> table.</p>",
-      "hints": "<pre><code>\nINSERT INTO\n    movie_genres (movie_id, genre_id)\nVALUES\n    (1, 7), -- Inception -> Science Fiction\n    (2, 7), -- The Matrix -> Science Fiction\n    (3, 3), -- The Godfather -> Drama\n    (4, 3), -- Pulp Fiction -> Drama\n    (5, 3), -- The Shawshank Redemption -> Drama\n    (6, 3), -- Fight Club -> Drama\n    (7, 3), -- Forrest Gump -> Drama\n    (8, 1), -- The Dark Knight -> Action\n    (9, 1), -- Avengers: Endgame -> Action\n    (10, 8), -- Titanic -> Romance\n    (11, 7), -- Interstellar -> Science Fiction\n    (12, 10), -- The Lion King -> Animation\n    (13, 1), -- Jurassic Park -> Action\n    (14, 1), -- Star Wars: A New Hope -> Action\n    (15, 7); -- Back to the Future -> Science Fiction\n</code></pre>",
+      "hints": "<pre><code>INSERT INTO\n    movie_genres (movie_id, genre_id)\nVALUES\n    (1, 7), -- Inception -> Science Fiction\n    (2, 7), -- The Matrix -> Science Fiction\n    (3, 3), -- The Godfather -> Drama\n    (4, 3), -- Pulp Fiction -> Drama\n    (5, 3), -- The Shawshank Redemption -> Drama\n    (6, 3), -- Fight Club -> Drama\n    (7, 3), -- Forrest Gump -> Drama\n    (8, 1), -- The Dark Knight -> Action\n    (9, 1), -- Avengers: Endgame -> Action\n    (10, 8), -- Titanic -> Romance\n    (11, 7), -- Interstellar -> Science Fiction\n    (12, 10), -- The Lion King -> Animation\n    (13, 1), -- Jurassic Park -> Action\n    (14, 1), -- Star Wars: A New Hope -> Action\n    (15, 7); -- Back to the Future -> Science Fiction\n</code></pre>",
       "initial_query": "",
       "solution_query": "INSERT INTO\n    movie_genres (movie_id, genre_id)\nVALUES\n    (1, 7), -- Inception -> Science Fiction\n    (2, 7), -- The Matrix -> Science Fiction\n    (3, 3), -- The Godfather -> Drama\n    (4, 3), -- Pulp Fiction -> Drama\n    (5, 3), -- The Shawshank Redemption -> Drama\n    (6, 3), -- Fight Club -> Drama\n    (7, 3), -- Forrest Gump -> Drama\n    (8, 1), -- The Dark Knight -> Action\n    (9, 1), -- Avengers: Endgame -> Action\n    (10, 8), -- Titanic -> Romance\n    (11, 7), -- Interstellar -> Science Fiction\n    (12, 10), -- The Lion King -> Animation\n    (13, 1), -- Jurassic Park -> Action\n    (14, 1), -- Star Wars: A New Hope -> Action\n    (15, 7); -- Back to the Future -> Science Fiction\n",
       "order": 8
@@ -132,7 +143,7 @@
       "lesson": 1002,
       "title": "06. Select Movies",
       "instruction": "<h2>Select Movies</h2>\n<p>Write an SQL query that retrieves the <code>name</code> and <code>year</code> columns from the <code>movies</code> table. The results should be ordered by <code>year</code> in descending order.</p>",
-      "hints": "<pre><code>\nSELECT\n    name,\n    year\nFROM\n    movies\nORDER BY\n    year DESC;\n</code></pre>",
+      "hints": "<pre><code>SELECT\n    name,\n    year\nFROM\n    movies\nORDER BY\n    year DESC;\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT\n    name,\n    year\nFROM\n    movies\nORDER BY\n    year DESC;\n",
       "order": 9
@@ -145,7 +156,7 @@
       "lesson": 1002,
       "title": "07. Select Distinct Movie Years",
       "instruction": "<h2>Select Distinct Movie Years</h2>\n<p>Write an SQL query that retrieves the distinct <code>year</code> values from the <code>movies</code> table.</p>",
-      "hints": "<pre><code>\nSELECT DISTINCT\n    year\nFROM\n    movies;\n</code></pre>",
+      "hints": "<pre><code>SELECT DISTINCT\n    year\nFROM\n    movies;\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT DISTINCT\n    year\nFROM\n    movies;\n",
       "order": 10
@@ -158,7 +169,7 @@
       "lesson": 1002,
       "title": "08. Select Movies Between 1900 and 2000",
       "instruction": "<h2>Select Movies Between 1900 and 2000</h2>\n<p>Write an SQL query that retrieves all columns from the <code>movies</code> table where the <code>year</code> is between 1900 and 2000.</p>",
-      "hints": "<pre><code>\nSELECT\n    *\nFROM\n    movies\nWHERE\n    year BETWEEN 1900 AND 2000;\n</code></pre>",
+      "hints": "<pre><code>SELECT\n    *\nFROM\n    movies\nWHERE\n    year BETWEEN 1900 AND 2000;\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT\n    *\nFROM\n    movies\nWHERE\n    year BETWEEN 1900 AND 2000;\n",
       "order": 11
@@ -171,7 +182,7 @@
       "lesson": 1002,
       "title": "09. Select Movies with 'film' in their name",
       "instruction": "<h2>Select Movies with 'film' in their name</h2>\n<p>Write an SQL query that retrieves all columns from the <code>movies</code> table where the <code>name</code> contains the substring 'film'.</p>",
-      "hints": "<pre><code>\nSELECT\n    *\nFROM\n    movies\nWHERE\n    name LIKE '%film%';\n</code></pre>",
+      "hints": "<pre><code>SELECT\n    *\nFROM\n    movies\nWHERE\n    name LIKE '%film%';\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT\n    *\nFROM\n    movies\nWHERE\n    name LIKE '%film%';\n",
       "order": 12
@@ -184,7 +195,7 @@
       "lesson": 1002,
       "title": "10. Select Movies from 1999 or 2011",
       "instruction": "<h2>Select Movies from 1999 or 2011</h2>\n<p>Write an SQL query that retrieves all columns from the <code>movies</code> table where the <code>year</code> is either 1999 or 2011.</p>",
-      "hints": "<pre><code>\nSELECT\n    *\nFROM\n    movies\nWHERE\n    year IN (1999, 2011);\n</code></pre>",
+      "hints": "<pre><code>SELECT\n    *\nFROM\n    movies\nWHERE\n    year IN (1999, 2011);\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT\n    *\nFROM\n    movies\nWHERE\n    year IN (1999, 2011);\n",
       "order": 13
@@ -197,7 +208,7 @@
       "lesson": 1002,
       "title": "11. Select Movies with Limit and Offset",
       "instruction": "<h2>Select Movies with Limit and Offset</h2>\n<p>Write an SQL query that retrieves all columns from the <code>movies</code> table ordered by <code>year</code>, limited to 2 results with an offset of 1.</p>",
-      "hints": "<pre><code>\nSELECT\n    *\nFROM\n    movies\nORDER BY\n    year\nLIMIT\n    2\nOFFSET\n    1;\n</code></pre>",
+      "hints": "<pre><code>SELECT\n    *\nFROM\n    movies\nORDER BY\n    year\nLIMIT\n    2\nOFFSET\n    1;\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT\n    *\nFROM\n    movies\nORDER BY\n    year\nLIMIT\n    2\nOFFSET\n    1;\n",
       "order": 14
@@ -210,7 +221,7 @@
       "lesson": 1002,
       "title": "12. Join Movies and Genres",
       "instruction": "<h2>Join Movies and Genres</h2>\n<p>Write an SQL query that retrieves the movie name and genre name by joining the <code>movies</code>, <code>movie_genres</code>, and <code>genres</code> tables.</p>",
-      "hints": "<pre><code>\nSELECT\n    m.name AS movie_name,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id;\n</code></pre>",
+      "hints": "<pre><code>SELECT\n    m.name AS movie_name,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id;\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT\n    m.name AS movie_name,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id;\n",
       "order": 15
@@ -223,7 +234,7 @@
       "lesson": 1002,
       "title": "13. Count Movies per Genre",
       "instruction": "<h2>Count Movies per Genre</h2>\n<p>Write an SQL query that retrieves the genre name and the count of movies associated with each genre by joining the <code>genres</code> and <code>movie_genres</code> tables. The results should be grouped by genre name and ordered by the count in descending order.</p>",
-      "hints": "<pre><code>\nSELECT\n    g.name AS genre_name,\n    COUNT(mg.movie_id) AS movie_count\nFROM\n    genres g\n    LEFT JOIN movie_genres mg ON g.genre_id = mg.genre_id\nGROUP BY\n    g.name\nORDER BY\n    movie_count DESC;\n</code></pre>",
+      "hints": "<pre><code>SELECT\n    g.name AS genre_name,\n    COUNT(mg.movie_id) AS movie_count\nFROM\n    genres g\n    LEFT JOIN movie_genres mg ON g.genre_id = mg.genre_id\nGROUP BY\n    g.name\nORDER BY\n    movie_count DESC;\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT\n    g.name AS genre_name,\n    COUNT(mg.movie_id) AS movie_count\nFROM\n    genres g\n    LEFT JOIN movie_genres mg ON g.genre_id = mg.genre_id\nGROUP BY\n    g.name\nORDER BY\n    movie_count DESC;\n",
       "order": 16
@@ -236,7 +247,7 @@
       "lesson": 1002,
       "title": "14. Select Movies with Genre Information (1990-2000)",
       "instruction": "<h2>Select Movies with Genre Information (1990-2000)</h2>\n<p>Write an SQL query that retrieves the movie name, release year, and genre name by joining the <code>movies</code>, <code>movie_genres</code>, and <code>genres</code> tables, filtering for movies released between 1990 and 2000.</p>",
-      "hints": "<pre><code>\nSELECT\n    m.name AS movie_name,\n    m.year AS release_year,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.year BETWEEN 1990 AND 2000;\n</code></pre>",
+      "hints": "<pre><code>SELECT\n    m.name AS movie_name,\n    m.year AS release_year,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.year BETWEEN 1990 AND 2000;\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT\n    m.name AS movie_name,\n    m.year AS release_year,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.year BETWEEN 1990 AND 2000;\n",
       "order": 17
@@ -249,7 +260,7 @@
       "lesson": 1002,
       "title": "15. Select Movies with Name Starting with 'The'",
       "instruction": "<h2>Select Movies with Name Starting with 'The'</h2>\n<p>Write an SQL query that retrieves the movie name and release year from the <code>movies</code> table where the <code>name</code> starts with 'The'.</p>",
-      "hints": "<pre><code>\nSELECT\n    m.name AS movie_name,\n    m.year AS release_year\nFROM\n    movies m\nWHERE\n    m.name LIKE 'The%';\n</code></pre>",
+      "hints": "<pre><code>SELECT\n    m.name AS movie_name,\n    m.year AS release_year\nFROM\n    movies m\nWHERE\n    m.name LIKE 'The%';\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT\n    m.name AS movie_name,\n    m.year AS release_year\nFROM\n    movies m\nWHERE\n    m.name LIKE 'The%';\n",
       "order": 18
@@ -262,7 +273,7 @@
       "lesson": 1002,
       "title": "16. Select Movies by Genre (Drama, Science Fiction)",
       "instruction": "<h2>Select Movies by Genre (Drama, Science Fiction)</h2>\n<p>Write an SQL query that retrieves the movie name and genre name by joining the <code>movies</code>, <code>movie_genres</code>, and <code>genres</code> tables, filtering for movies whose genre is either 'Drama' or 'Science Fiction'.</p>",
-      "hints": "<pre><code>\nSELECT\n    m.name AS movie_name,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    g.name IN ('Drama', 'Science Fiction');\n</code></pre>",
+      "hints": "<pre><code>SELECT\n    m.name AS movie_name,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    g.name IN ('Drama', 'Science Fiction');\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT\n    m.name AS movie_name,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    g.name IN ('Drama', 'Science Fiction');\n",
       "order": 19
@@ -275,10 +286,36 @@
       "lesson": 1002,
       "title": "17. Select Movies with Genre, Year, and Name Filters",
       "instruction": "<h2>Select Movies with Genre, Year, and Name Filters</h2>\n<p>Write an SQL query that retrieves the movie name, release year, and genre name by joining the <code>movies</code>, <code>movie_genres</code>, and <code>genres</code> tables, filtering for movies released between 1990 and 2000, whose name starts with 'The', and whose genre is either 'Drama' or 'Science Fiction'.</p>",
-      "hints": "<pre><code>\nSELECT\n    m.name AS movie_name,\n    m.year AS release_year,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.year >= 1990\n    AND m.year <= 2000\n    AND m.name LIKE 'The%'\n    AND g.name IN ('Drama', 'Science Fiction');\n</code></pre>",
+      "hints": "<pre><code>SELECT\n    m.name AS movie_name,\n    m.year AS release_year,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.year >= 1990\n    AND m.year <= 2000\n    AND m.name LIKE 'The%'\n    AND g.name IN ('Drama', 'Science Fiction');\n</code></pre>",
       "initial_query": "",
       "solution_query": "SELECT\n    m.name AS movie_name,\n    m.year AS release_year,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.year >= 1990\n    AND m.year <= 2000\n    AND m.name LIKE 'The%'\n    AND g.name IN ('Drama', 'Science Fiction');\n",
       "order": 20
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 21,
+    "fields": {
+      "lesson": 1003,
+      "title": "01. Creating the employees table",
+      "instruction": "<h2>Create the <code>employees</code> table</h2>\n<p>Create a table named <code>employees</code> with the following columns:</p>\n<ul>\n  <li><strong>employee_id:</strong> SERIAL, primary key</li>\n  <li><strong>first_name:</strong> VARCHAR(50)</li>\n  <li><strong>last_name:</strong> VARCHAR(50)</li>\n  <li><strong>department:</strong> VARCHAR(50)</li>\n  <li><strong>salary:</strong> NUMERIC(10, 2)</li>\n  <li><strong>status:</strong> VARCHAR(20)</li>\n</ul>",
+      "hints": "<pre><code>CREATE TABLE\n    employees (\n        employee_id SERIAL PRIMARY KEY,\n        first_name VARCHAR(50),\n        last_name VARCHAR(50),\n        department VARCHAR(50),\n        salary NUMERIC(10, 2),\n        status VARCHAR(20)\n    );\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "CREATE TABLE\n    employees (\n        employee_id SERIAL PRIMARY KEY,\n        first_name VARCHAR(50),\n        last_name VARCHAR(50),\n        department VARCHAR(50),\n        salary NUMERIC(10, 2),\n        status VARCHAR(20)\n    );\n",
+      "order": 21
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 22,
+    "fields": {
+      "lesson": 1003,
+      "title": "02. Populating the table with test data",
+      "instruction": "<h2>Insert sample data into the <code>employees</code> table</h2>\n<p>Populate the <code>employees</code> table with the following records. Each employee has a first name, last name, department, salary, and status:</p>\n<ul>\n  <li>Alice Smith – Engineering – 75000.00 – ACTIVE</li>\n  <li>Bob Johnson – Finance – 65000.00 – ACTIVE</li>\n  <li>Charlie Williams – Engineering – 80000.00 – INACTIVE</li>\n  <li>Diana Brown – Marketing – 55000.00 – ACTIVE</li>\n  <li>Edward Jones – HR – 50000.00 – ACTIVE</li>\n  <li>Fiona Garcia – Engineering – 95000.00 – ACTIVE</li>\n  <li>George Martinez – Finance – 68000.00 – INACTIVE</li>\n  <li>Helen Miller – Marketing – 60000.00 – ACTIVE</li>\n  <li>Ian Davis – HR – 52000.00 – ACTIVE</li>\n  <li>Julia Rodriguez – Engineering – 72000.00 – INACTIVE</li>\n</ul>",
+      "hints": "<pre><code>INSERT INTO\n    employees (first_name, last_name, department, salary, status)\nVALUES\n    (\n        'Alice',\n        'Smith',\n        'Engineering',\n        75000.00,\n        'ACTIVE'\n    ),\n    ('Bob', 'Johnson', 'Finance', 65000.00, 'ACTIVE'),\n    (\n        'Charlie',\n        'Williams',\n        'Engineering',\n        80000.00,\n        'INACTIVE'\n    ),\n    ('Diana', 'Brown', 'Marketing', 55000.00, 'ACTIVE'),\n    ('Edward', 'Jones', 'HR', 50000.00, 'ACTIVE'),\n    (\n        'Fiona',\n        'Garcia',\n        'Engineering',\n        95000.00,\n        'ACTIVE'\n    ),\n    (\n        'George',\n        'Martinez',\n        'Finance',\n        68000.00,\n        'INACTIVE'\n    ),\n    (\n        'Helen',\n        'Miller',\n        'Marketing',\n        60000.00,\n        'ACTIVE'\n    ),\n    ('Ian', 'Davis', 'HR', 52000.00, 'ACTIVE'),\n    (\n        'Julia',\n        'Rodriguez',\n        'Engineering',\n        72000.00,\n        'INACTIVE'\n    );\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "INSERT INTO\n    employees (first_name, last_name, department, salary, status)\nVALUES\n    (\n        'Alice',\n        'Smith',\n        'Engineering',\n        75000.00,\n        'ACTIVE'\n    ),\n    ('Bob', 'Johnson', 'Finance', 65000.00, 'ACTIVE'),\n    (\n        'Charlie',\n        'Williams',\n        'Engineering',\n        80000.00,\n        'INACTIVE'\n    ),\n    ('Diana', 'Brown', 'Marketing', 55000.00, 'ACTIVE'),\n    ('Edward', 'Jones', 'HR', 50000.00, 'ACTIVE'),\n    (\n        'Fiona',\n        'Garcia',\n        'Engineering',\n        95000.00,\n        'ACTIVE'\n    ),\n    (\n        'George',\n        'Martinez',\n        'Finance',\n        68000.00,\n        'INACTIVE'\n    ),\n    (\n        'Helen',\n        'Miller',\n        'Marketing',\n        60000.00,\n        'ACTIVE'\n    ),\n    ('Ian', 'Davis', 'HR', 52000.00, 'ACTIVE'),\n    (\n        'Julia',\n        'Rodriguez',\n        'Engineering',\n        72000.00,\n        'INACTIVE'\n    );\n",
+      "order": 22
     }
   }
 ]
