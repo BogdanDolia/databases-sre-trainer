@@ -39,7 +39,7 @@
       "lesson": 1001,
       "title": "01. Create employees",
       "instruction": "<h2>Create a table named <code>employees</code> with the following columns:</h2>\n  <ul>\n    <li><strong>employee_id:</strong> Serial primary key</li>\n    <li><strong>first_name:</strong> VARCHAR(100)</li>\n    <li><strong>last_name:</strong> VARCHAR(100)</li>\n    <li><strong>salary:</strong> NUMERIC(10, 2)</li>\n  </ul>",
-      "hints": "<pre><code>CREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);\n</code></pre>",
+      "hints": "<div style='position: relative;'><button onclick='navigator.clipboard.writeText(this.nextElementSibling.querySelector(\"code\").textContent); this.innerHTML=\"Copied!\"; setTimeout(() => { this.innerHTML=\"<i class=\\\"fas fa-copy\\\"></i> Copy\"; }, 2000);' style='position: absolute; top: 5px; right: 5px; z-index: 100;' class='btn btn-sm btn-outline-secondary'><i class='fas fa-copy'></i> Copy</button><pre><code>CREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);\n</code></pre></div>",
       "initial_query": "",
       "solution_query": "CREATE TABLE\n    employees\n(\n    employee_id SERIAL PRIMARY KEY,\n    first_name  VARCHAR(100),\n    last_name   VARCHAR(100),\n    salary      NUMERIC(10, 2)\n);",
       "order": 1
@@ -52,7 +52,7 @@
       "lesson": 1001,
       "title": "02. Insert employees",
       "instruction": "<h2>Insert the following employees into the <code>employees</code> table:</h2>\n  <ul>\n    <li>Alice Smith with salary 45000</li>\n    <li>Bob Jones with salary 55000</li>\n    <li>Charlie Brown with salary 60000</li>\n  </ul>",
-      "hints": "<pre><code>INSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);\n</code></pre>",
+      "hints": "<div style='position: relative;'><button onclick='navigator.clipboard.writeText(this.nextElementSibling.querySelector(\"code\").textContent); this.innerHTML=\"Copied!\"; setTimeout(() => { this.innerHTML=\"<i class=\\\"fas fa-copy\\\"></i> Copy\"; }, 2000);' style='position: absolute; top: 5px; right: 5px; z-index: 100;' class='btn btn-sm btn-outline-secondary'><i class='fas fa-copy'></i> Copy</button><pre><code>INSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);\n</code></pre></div>",
       "initial_query": "",
       "solution_query": "INSERT INTO employees (first_name, last_name, salary)\nVALUES ('Alice', 'Smith', 45000),\n       ('Bob', 'Jones', 55000),\n       ('Charlie', 'Brown', 60000);",
       "order": 2
@@ -65,7 +65,7 @@
       "lesson": 1001,
       "title": "03. Select employees",
       "instruction": "<h2>Practice selecting data from the <code>employees</code> table using SQL queries:</h2>\n<ul>\n  <li>Retrieve all columns for all employees.</li>\n  <li>Retrieve only the <code>first_name</code> and <code>salary</code> columns for all employees.</li>\n  <li>Retrieve all columns for employees with a salary greater than 50000.</li>\n</ul>",
-      "hints": "<pre><code>SELECT * FROM employees;\nSELECT first_name,salary FROM employees;\nSELECT * FROM employees WHERE salary > 50000;\n</code></pre>",
+      "hints": "<div style='position: relative;'><button onclick='navigator.clipboard.writeText(this.nextElementSibling.querySelector(\"code\").textContent); this.innerHTML=\"Copied!\"; setTimeout(() => { this.innerHTML=\"<i class=\\\"fas fa-copy\\\"></i> Copy\"; }, 2000);' style='position: absolute; top: 5px; right: 5px; z-index: 100;' class='btn btn-sm btn-outline-secondary'><i class='fas fa-copy'></i> Copy</button><pre style='padding-top: 35px;'><code>SELECT * FROM employees;\nSELECT first_name,salary FROM employees;\nSELECT * FROM employees WHERE salary > 50000;\n</code></pre></div>",
       "initial_query": "",
       "solution_query": "SELECT * FROM employees;\nSELECT first_name,salary FROM employees;\nSELECT * FROM employees WHERE salary > 50000;",
       "order": 3
