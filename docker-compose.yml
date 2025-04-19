@@ -36,7 +36,7 @@ services:
       - DATABASE_PORT=5432
       - DJANGO_SUPERUSER_USERNAME=admin
       - DJANGO_SUPERUSER_PASSWORD=admin
-      - DJANGO_SUPERUSER_EMAIL=admin@example.comdocker exec django_trainer python manage.py export_lessons
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
     ports:
       - "8000:8000"
     volumes:

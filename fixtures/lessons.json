@@ -317,5 +317,287 @@
       "solution_query": "INSERT INTO\n    employees (first_name, last_name, department, salary, status)\nVALUES\n    (\n        'Alice',\n        'Smith',\n        'Engineering',\n        75000.00,\n        'ACTIVE'\n    ),\n    ('Bob', 'Johnson', 'Finance', 65000.00, 'ACTIVE'),\n    (\n        'Charlie',\n        'Williams',\n        'Engineering',\n        80000.00,\n        'INACTIVE'\n    ),\n    ('Diana', 'Brown', 'Marketing', 55000.00, 'ACTIVE'),\n    ('Edward', 'Jones', 'HR', 50000.00, 'ACTIVE'),\n    (\n        'Fiona',\n        'Garcia',\n        'Engineering',\n        95000.00,\n        'ACTIVE'\n    ),\n    (\n        'George',\n        'Martinez',\n        'Finance',\n        68000.00,\n        'INACTIVE'\n    ),\n    (\n        'Helen',\n        'Miller',\n        'Marketing',\n        60000.00,\n        'ACTIVE'\n    ),\n    ('Ian', 'Davis', 'HR', 52000.00, 'ACTIVE'),\n    (\n        'Julia',\n        'Rodriguez',\n        'Engineering',\n        72000.00,\n        'INACTIVE'\n    );\n",
       "order": 22
     }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 23,
+    "fields": {
+      "lesson": 1003,
+      "title": "03. Calculate average salary",
+      "instruction": "<h2>Calculate Average Salary</h2>\n<p>Write an SQL query that calculates the average salary of all employees in the <code>employees</code> table. The result should be displayed as <code>avg_salary</code>.</p>",
+      "hints": "<pre><code>SELECT\n    AVG(salary) AS avg_salary\nFROM\n    employees;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    AVG(salary) AS avg_salary\nFROM\n    employees;\n",
+      "order": 23
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 24,
+    "fields": {
+      "lesson": 1003,
+      "title": "04. Group by department",
+      "instruction": "<h2>Group by Department</h2>\n<p>Write an SQL query that calculates the average salary for each department in the <code>employees</code> table. The results should display the department name and the average salary as <code>avg_salary</code>, grouped by department.</p>",
+      "hints": "<pre><code>SELECT\n    department,\n    AVG(salary) AS avg_salary\nFROM\n    employees\nGROUP BY\n    department;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    department,\n    AVG(salary) AS avg_salary\nFROM\n    employees\nGROUP BY\n    department;\n",
+      "order": 24
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 25,
+    "fields": {
+      "lesson": 1003,
+      "title": "05. Using HAVING to filter groups",
+      "instruction": "<h2>Using HAVING to Filter Groups</h2>\n<p>Write an SQL query that calculates the average salary for each department in the <code>employees</code> table, but only includes departments where the average salary is greater than 50000. The results should display the department name and the average salary as <code>avg_salary</code>.</p>",
+      "hints": "<pre><code>SELECT\n    department,\n    AVG(salary) AS avg_salary\nFROM\n    employees\nGROUP BY\n    department\nHAVING\n    AVG(salary) > 50000;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    department,\n    AVG(salary) AS avg_salary\nFROM\n    employees\nGROUP BY\n    department\nHAVING\n    AVG(salary) > 50000;\n",
+      "order": 25
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 26,
+    "fields": {
+      "lesson": 1003,
+      "title": "06. Combining WHERE and HAVING",
+      "instruction": "<h2>Combining WHERE and HAVING</h2>\n<p>Write an SQL query that calculates the average salary for each department in the <code>employees</code> table, but only for employees with status 'ACTIVE'. Additionally, only include departments where the average salary is greater than 60000. The results should display the department name and the average salary as <code>avg_salary</code>.</p>",
+      "hints": "<pre><code>SELECT\n    department,\n    AVG(salary) AS avg_salary\nFROM\n    employees\nWHERE\n    status = 'ACTIVE'\nGROUP BY\n    department\nHAVING\n    AVG(salary) > 60000;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    department,\n    AVG(salary) AS avg_salary\nFROM\n    employees\nWHERE\n    status = 'ACTIVE'\nGROUP BY\n    department\nHAVING\n    AVG(salary) > 60000;\n",
+      "order": 26
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 27,
+    "fields": {
+      "lesson": 1003,
+      "title": "07. Select Drama movies",
+      "instruction": "<h2>Select Drama Movies</h2>\n<p>Write an SQL query that retrieves the movie name and genre name by joining the <code>movies</code>, <code>movie_genres</code>, and <code>genres</code> tables. Filter for movies that are available (availability = true) and have the genre 'Drama'. Group the results by movie name and genre name.</p>",
+      "hints": "<pre><code>SELECT\n    m.name AS movie_name,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.availability = 'true'\nGROUP BY\n    m.name,\n    g.name\nHAVING\n    g.name = 'Drama';\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    m.name AS movie_name,\n    g.name AS genre_name\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.availability = 'true'\nGROUP BY\n    m.name,\n    g.name\nHAVING\n    g.name = 'Drama';\n",
+      "order": 27
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 28,
+    "fields": {
+      "lesson": 1003,
+      "title": "08. Calculate sum of available copies",
+      "instruction": "<h2>Calculate Sum of Available Copies</h2>\n<p>Write an SQL query that calculates the sum of all available copies (<code>copy_available</code>) in the <code>movies</code> table. The result should be displayed as <code>sum_copy_available</code>.</p>",
+      "hints": "<pre><code>SELECT\n    SUM(copy_available) AS sum_copy_available\nFROM\n    movies;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    SUM(copy_available) AS sum_copy_available\nFROM\n    movies;\n",
+      "order": 28
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 29,
+    "fields": {
+      "lesson": 1003,
+      "title": "09. Filter movies with more than 5 copies",
+      "instruction": "<h2>Filter Movies with More Than 5 Copies</h2>\n<p>Write an SQL query that retrieves the movie name, genre name, and number of available copies for movies that are available (availability = true) and have more than 5 copies available. The results should be grouped by movie name, genre name, and number of available copies, and ordered by the number of available copies in ascending order.</p>",
+      "hints": "<pre><code>SELECT\n    m.name AS movie_name,\n    g.name AS genre_name,\n    m.copy_available AS copy_available\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.availability = 'true'\nGROUP BY\n    m.name,\n    g.name,\n    m.copy_available\nHAVING\n    m.copy_available > 5\nORDER BY\n    m.copy_available ASC;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    m.name AS movie_name,\n    g.name AS genre_name,\n    m.copy_available AS copy_available\nFROM\n    movies m\n    JOIN movie_genres mg ON m.movie_id = mg.movie_id\n    JOIN genres g ON mg.genre_id = g.genre_id\nWHERE\n    m.availability = 'true'\nGROUP BY\n    m.name,\n    g.name,\n    m.copy_available\nHAVING\n    m.copy_available > 5\nORDER BY\n    m.copy_available ASC;\n",
+      "order": 29
+    }
+  },
+  {
+    "model": "lessons.lesson",
+    "pk": 1004,
+    "fields": {
+      "title": "Subqueries, CASE, and COALESCE",
+      "slug": "subqueries-case-coalesce",
+      "description": "Learn to use subqueries, CASE statements, and COALESCE for handling NULL values",
+      "content": "<h1>Lesson Objectives</h1>\n  <ul>\n    <li>Learn to use subqueries in different parts of SQL queries:\n      <ul>\n        <li>In WHERE for filtering using IN or EXISTS</li>\n        <li>In the list of selected columns</li>\n        <li>In the FROM section as virtual (temporary) tables</li>\n      </ul>\n    </li>\n    <li>Master the CASE construct to implement conditional logic directly within the query</li>\n    <li>Get acquainted with the COALESCE function for handling NULL values</li>\n  </ul>\n\n  <h2>COALESCE Function</h2>\n  <p>The COALESCE function returns the first non-null argument from the list. This is useful for replacing NULL with a default value.</p>",
+      "order": 4
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 30,
+    "fields": {
+      "lesson": 1004,
+      "title": "01. Subquery in WHERE clause",
+      "instruction": "<h2>Subquery in WHERE Clause</h2>\n<p>Write an SQL query that selects the name and year of movies whose release year is greater than the average release year of all movies.</p>",
+      "hints": "<pre><code>SELECT\n    name,\n    year\nFROM\n    movies\nWHERE\n    year > (\n        SELECT\n            AVG(year)\n        FROM\n            movies\n    );\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    name,\n    year\nFROM\n    movies\nWHERE\n    year > (\n        SELECT\n            AVG(year)\n        FROM\n            movies\n    );\n",
+      "order": 30
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 31,
+    "fields": {
+      "lesson": 1004,
+      "title": "02. Subquery in SELECT clause",
+      "instruction": "<h2>Subquery in SELECT Clause</h2>\n<p>Write an SQL query that outputs the name of each movie and the number of genres it belongs to. Use a subquery in the SELECT clause to count the number of genres for each movie.</p>",
+      "hints": "<pre><code>SELECT\n    m.name,\n    (\n        SELECT\n            COUNT(*)\n        FROM\n            movie_genres mg\n        WHERE\n            mg.movie_id = m.movie_id\n    ) AS genre_count\nFROM\n    movies m;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    m.name,\n    (\n        SELECT\n            COUNT(*)\n        FROM\n            movie_genres mg\n        WHERE\n            mg.movie_id = m.movie_id\n    ) AS genre_count\nFROM\n    movies m;\n",
+      "order": 31
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 32,
+    "fields": {
+      "lesson": 1004,
+      "title": "03. Subquery in FROM clause",
+      "instruction": "<h2>Subquery in FROM Clause</h2>\n<p>Write an SQL query that counts the number of copies for each movie and selects the movies where the number of copies is greater than the average for all movies. Use subqueries in both the FROM clause and the WHERE clause.</p>",
+      "hints": "<pre><code>SELECT\n    t.movie_id,\n    t.total_copies\nFROM\n    (\n        SELECT\n            movie_id,\n            SUM(copy_available) AS total_copies\n        FROM\n            movies\n        GROUP BY\n            movie_id\n    ) t\nWHERE\n    t.total_copies > (\n        SELECT\n            AVG(total_copies)\n        FROM\n            (\n                SELECT\n                    movie_id,\n                    SUM(copy_available) AS total_copies\n                FROM\n                    movies\n                GROUP BY\n                    movie_id\n            ) tt\n    );\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    t.movie_id,\n    t.total_copies\nFROM\n    (\n        SELECT\n            movie_id,\n            SUM(copy_available) AS total_copies\n        FROM\n            movies\n        GROUP BY\n            movie_id\n    ) t\nWHERE\n    t.total_copies > (\n        SELECT\n            AVG(total_copies)\n        FROM\n            (\n                SELECT\n                    movie_id,\n                    SUM(copy_available) AS total_copies\n                FROM\n                    movies\n                GROUP BY\n                    movie_id\n            ) tt\n    );\n",
+      "order": 32
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 33,
+    "fields": {
+      "lesson": 1004,
+      "title": "04. CASE statement for conditional logic",
+      "instruction": "<h2>CASE Statement for Conditional Logic</h2>\n<p>Write an SQL query that determines a conditional availability rating for each movie based on the number of copies. Use a CASE statement with the following conditions:</p>\n<ul>\n  <li>If copy_available is 10 or more, the rating is 'Excellent'</li>\n  <li>If copy_available is between 5 and 9 (inclusive), the rating is 'Good'</li>\n  <li>Otherwise, the rating is 'Low'</li>\n</ul>",
+      "hints": "<pre><code>SELECT\n    name,\n    copy_available,\n    CASE\n        WHEN copy_available >= 10 THEN 'Excellent'\n        WHEN copy_available >= 5\n        AND copy_available <= 9 THEN 'Good'\n        ELSE 'Low'\n    END AS availability_rating\nFROM\n    movies;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    name,\n    copy_available,\n    CASE\n        WHEN copy_available >= 10 THEN 'Excellent'\n        WHEN copy_available >= 5\n        AND copy_available <= 9 THEN 'Good'\n        ELSE 'Low'\n    END AS availability_rating\nFROM\n    movies;\n",
+      "order": 33
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 34,
+    "fields": {
+      "lesson": 1004,
+      "title": "05. CASE statement for categorization",
+      "instruction": "<h2>CASE Statement for Categorization</h2>\n<p>Write an SQL query that classifies movie release years by decades. Use a CASE statement with the following conditions:</p>\n<ul>\n  <li>If year is before 1980, the category is 'Before 1980'</li>\n  <li>If year is between 1980 and 1989, the category is '80s'</li>\n  <li>If year is between 1990 and 1999, the category is '90s'</li>\n  <li>If year is between 2000 and 2009, the category is '2000s'</li>\n  <li>Otherwise, the category is '2010 and later'</li>\n</ul>",
+      "hints": "<pre><code>SELECT\n    name,\n    year,\n    CASE\n        WHEN year < 1980 THEN 'Before 1980'\n        WHEN year >= 1980\n        AND year <= 1989 THEN '80s'\n        WHEN year >= 1990\n        AND year <= 1999 THEN '90s'\n        WHEN year >= 2000\n        AND year <= 2009 THEN '2000s'\n        ELSE '2010 and later'\n    END AS decade_group\nFROM\n    movies;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    name,\n    year,\n    CASE\n        WHEN year < 1980 THEN 'Before 1980'\n        WHEN year >= 1980\n        AND year <= 1989 THEN '80s'\n        WHEN year >= 1990\n        AND year <= 1999 THEN '90s'\n        WHEN year >= 2000\n        AND year <= 2009 THEN '2000s'\n        ELSE '2010 and later'\n    END AS decade_group\nFROM\n    movies;\n",
+      "order": 34
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 35,
+    "fields": {
+      "lesson": 1004,
+      "title": "06. COALESCE for handling NULL values",
+      "instruction": "<h2>COALESCE for Handling NULL Values</h2>\n<p>Write an SQL query that selects the name of each movie and the number of available copies. If the copy_available column contains NULL, replace it with 0 using the COALESCE function.</p>",
+      "hints": "<pre><code>SELECT\n    name,\n    COALESCE(copy_available, 0) AS available_copies\nFROM\n    movies;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    name,\n    COALESCE(copy_available, 0) AS available_copies\nFROM\n    movies;\n",
+      "order": 35
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 36,
+    "fields": {
+      "lesson": 1004,
+      "title": "07. Complex subquery",
+      "instruction": "<h2>Complex Subquery</h2>\n<p>Write an SQL query that outputs movie titles where the number of copies (copy_available) is greater than the average number of copies for all movies. Use subqueries in both the FROM clause and the WHERE clause.</p>",
+      "hints": "<pre><code>SELECT\n    t.name,\n    t.total_copies\nFROM\n    (\n        SELECT\n            name,\n            SUM(copy_available) AS total_copies\n        FROM\n            movies\n        GROUP BY\n            name\n    ) t\nWHERE\n    t.total_copies > (\n        SELECT\n            AVG(total_copies)\n        FROM\n            (\n                SELECT\n                    name,\n                    SUM(copy_available) AS total_copies\n                FROM\n                    movies\n                GROUP BY\n                    name\n            ) tt\n    );\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    t.name,\n    t.total_copies\nFROM\n    (\n        SELECT\n            name,\n            SUM(copy_available) AS total_copies\n        FROM\n            movies\n        GROUP BY\n            name\n    ) t\nWHERE\n    t.total_copies > (\n        SELECT\n            AVG(total_copies)\n        FROM\n            (\n                SELECT\n                    name,\n                    SUM(copy_available) AS total_copies\n                FROM\n                    movies\n                GROUP BY\n                    name\n            ) tt\n    );\n",
+      "order": 36
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 37,
+    "fields": {
+      "lesson": 1004,
+      "title": "08. Combining COALESCE with CASE",
+      "instruction": "<h2>Combining COALESCE with CASE</h2>\n<p>Write an SQL query that determines a conditional availability rating for each movie based on the number of copies, handling NULL values with COALESCE. Use a CASE statement with the following conditions:</p>\n<ul>\n  <li>If copy_available is 10 or more, the rating is 'Excellent'</li>\n  <li>If copy_available is between 5 and 9 (inclusive), the rating is 'Good'</li>\n  <li>Otherwise, the rating is 'Low'</li>\n</ul>\n<p>If copy_available is NULL, it should be treated as 0 for the purpose of determining the rating.</p>",
+      "hints": "<pre><code>SELECT\n    name,\n    COALESCE(copy_available, 0) AS copy_available,\n    CASE\n        WHEN COALESCE(copy_available, 0) >= 10 THEN 'Excellent'\n        WHEN COALESCE(copy_available, 0) >= 5\n        AND COALESCE(copy_available, 0) <= 9 THEN 'Good'\n        ELSE 'Low'\n    END AS availability_rating\nFROM\n    movies;\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "SELECT\n    name,\n    COALESCE(copy_available, 0) AS copy_available,\n    CASE\n        WHEN COALESCE(copy_available, 0) >= 10 THEN 'Excellent'\n        WHEN COALESCE(copy_available, 0) >= 5\n        AND COALESCE(copy_available, 0) <= 9 THEN 'Good'\n        ELSE 'Low'\n    END AS availability_rating\nFROM\n    movies;\n",
+      "order": 37
+    }
+  },
+  {
+    "model": "lessons.lesson",
+    "pk": 1005,
+    "fields": {
+      "title": "Database Design and Normalization",
+      "slug": "database-design-normalization",
+      "description": "Learn about data types, normalization principles, and effective database schema design",
+      "content": "<h2>1. Data Types</h2>\n<p>When designing a database, it is important to choose the right data types for each column. Here are the main categories:</p>\n<ul>\n  <li><strong>Numeric types</strong>:\n    <ul>\n      <li><code>INTEGER</code>, <code>SMALLINT</code>, <code>BIGINT</code> for whole numbers.</li>\n      <li><code>DECIMAL</code>, <code>NUMERIC</code>, <code>FLOAT</code> for floating-point numbers.</li>\n    </ul>\n    <p><em>Example</em>: <code>NUMERIC(10,2)</code> is often used to store quantities or salaries.</p>\n  </li>\n  <li><strong>String types</strong>:\n    <ul>\n      <li><code>VARCHAR(n)</code>, <code>CHAR(n)</code> – variable and fixed length, respectively.</li>\n      <li><code>TEXT</code> – for large amounts of text.</li>\n    </ul>\n  </li>\n  <li><strong>Date and time</strong>:\n    <ul>\n      <li><code>DATE</code>, <code>TIME</code>, <code>TIMESTAMP</code> for storing date and/or time.</li>\n    </ul>\n  </li>\n  <li><strong>Other data types</strong>:\n    <ul>\n      <li><code>BOOLEAN</code> for storing logical values (<code>true/false</code>).</li>\n      <li><code>JSON/JSONB</code> (in PostgreSQL) – for storing JSON-formatted data.</li>\n      <li>Specialized types (e.g., geographic data).</li>\n    </ul>\n  </li>\n</ul>\n<blockquote>\n  <p><strong>Note</strong>: The choice of data type affects storage accuracy, query execution speed, and memory usage.</p>\n</blockquote>\n\n<h2>2. Normal Forms</h2>\n<p>Normalization is the process of organizing data to reduce redundancy and prevent update anomalies. Let's examine the main normal forms:</p>\n\n<h3>2.1 First Normal Form (1NF)</h3>\n<ul>\n  <li><strong>Definition</strong>: All table columns must contain atomic (indivisible) values; there should be no repeating groups.</li>\n  <li><strong>Example</strong>: If the \"Orders\" table stores a list of items in a single field, it violates 1NF. It is better to split the data so that each item is in a separate row or create an additional \"Order_Items\" table.</li>\n</ul>\n\n<h3>2.2 Second Normal Form (2NF)</h3>\n<ul>\n  <li><strong>Requirements</strong>: The table is in 1NF, and all non-key attributes fully depend on the primary key (i.e., no partial dependency on part of a composite key).</li>\n  <li><strong>Example</strong>: If a table has a composite key (e.g., <code>(order_id, product_id)</code>), all other columns must depend on both fields entirely, not just one of them.</li>\n</ul>\n\n<h3>2.3 Third Normal Form (3NF)</h3>\n<ul>\n  <li><strong>Requirements</strong>: The table is in 2NF, and no non-key column depends transitively (through another non-key column) on the primary key.</li>\n  <li><strong>Example</strong>: If the \"Employees\" table stores department information and also repeats the department manager's name (which can be obtained from a separate \"Departments\" table), this is a transitive dependency. To eliminate redundancy, department data should be stored in a separate table.</li>\n</ul>\n\n<blockquote>\n  <p><strong>General rule</strong>:<br>\n  Normalization helps reduce redundancy and improves data integrity, but excessive normalization can lead to excessive joins (<code>JOIN</code>s). In projects, a balance between normalization and denormalization is often used depending on performance requirements.</p>\n</blockquote>\n\n<h2>3. Table Design</h2>\n<p>When designing a database, you need to:</p>\n<ol>\n  <li><strong>Define the subject area</strong>:\n    <ul>\n      <li>What data will be stored? What are the key objects?</li>\n      <li><em>Example</em>: For a cinema, key entities include movies, genres, screenings, tickets, etc.</li>\n    </ul>\n  </li>\n  <li><strong>Define entities and relationships</strong>:\n    <ul>\n      <li>Identify entities (tables) and their relationships (one-to-many, many-to-many).</li>\n      <li><em>Example</em>: \"Movies\" (<code>movies</code>) and \"Genres\" (<code>genres</code>) have a many-to-many relationship. A junction table (<code>movie_genres</code>) is created to manage this relationship.</li>\n    </ul>\n  </li>\n  <li><strong>Define primary and foreign keys</strong>:\n    <ul>\n      <li>Each table should have a primary key (unique identifier).</li>\n      <li>Foreign keys establish relationships between tables.</li>\n    </ul>\n  </li>\n  <li><strong>Consider normalization</strong>:\n    <ul>\n      <li>Apply normalization principles to prevent redundancy.</li>\n    </ul>\n  </li>\n  <li><strong>Additional considerations</strong>:\n    <ul>\n      <li>What indexes are needed to speed up searches?</li>\n      <li>How will data updates be handled? What constraints (<code>constraints</code>) should be enforced (e.g., uniqueness, <code>NOT NULL</code>, <code>CHECK</code>)?</li>\n    </ul>\n  </li>\n</ol>",
+      "order": 5
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 38,
+    "fields": {
+      "lesson": 1005,
+      "title": "01. Database Schema Design",
+      "instruction": "<h3>1. Database Schema Design</h3>\n\n<p><strong>Subject area</strong>: Online bookstore</p>\n\n<p><strong>Main entities (tables) and their relationships</strong>:</p>\n<ol>\n  <li>\n    <strong>Books (Books)</strong><br>\n    Stores information about books available in the store.\n  </li>\n  <li>\n    <strong>Authors (Authors)</strong><br>\n    Stores information about book authors.\n  </li>\n  <li>\n    <strong>Categories (Categories)</strong><br>\n    Stores different categories or genres of books.\n  </li>\n  <li>\n    <strong>Users (Users)</strong><br>\n    Stores customer information.\n  </li>\n  <li>\n    <strong>Orders (Orders)</strong><br>\n    Stores information about user orders.\n  </li>\n  <li>\n    <strong>Ordered books (Order_Items)</strong><br>\n    Stores details about specific books in each order.\n  </li>\n</ol>\n\n<p><strong>Relationships between entities</strong>:</p>\n<ul>\n  <li>\n    <strong>Books</strong> and <strong>Authors</strong>: Many‑to‑many  \n    (one book can have multiple authors, and one author can write multiple books).  \n    This relationship is implemented through the <code>Book_Authors</code> junction table.\n  </li>\n  <li>\n    <strong>Books</strong> and <strong>Categories</strong>: Many‑to‑many  \n    (one book can belong to multiple categories, and one category can contain multiple books).  \n    This relationship is implemented through the <code>Book_Categories</code> junction table.\n  </li>\n  <li>\n    <strong>Users</strong> and <strong>Orders</strong>: One‑to‑many  \n    (one user can place multiple orders).\n  </li>\n  <li>\n    <strong>Orders</strong> and <strong>Ordered Books</strong>: One‑to‑many  \n    (one order can contain multiple books).\n  </li>\n</ul>\n",
+      "hints": "<pre><code>no solution</code></pre>",
+      "initial_query": "",
+      "solution_query": "no solution",
+      "order": 38
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 39,
+    "fields": {
+      "lesson": 1005,
+      "title": "02. Defining Keys and Data Types",
+      "instruction": "<h3>2. Defining Keys and Data Types</h3>\n\n<p><strong>Tables and their structures</strong>:</p>\n\n<ol>\n  <li>\n    <strong>Authors</strong>\n    <ul>\n      <li><code>author_id SERIAL PRIMARY KEY</code>: Unique identifier for the author.</li>\n      <li><code>first_name VARCHAR(50) NOT NULL</code>: Author’s first name.</li>\n      <li><code>last_name VARCHAR(50) NOT NULL</code>: Author’s last name.</li>\n      <li><code>bio TEXT</code>: Author’s biography (optional).</li>\n    </ul>\n  </li>\n\n\n  <li>\n    <strong>Categories</strong>\n    <ul>\n      <li><code>category_id SERIAL PRIMARY KEY</code>: Unique category identifier.</li>\n      <li><code>name VARCHAR(100) NOT NULL UNIQUE</code>: Category name.</li>\n    </ul>\n  </li>\n\n<li>\n    <strong>Books</strong>\n    <ul>\n      <li><code>book_id SERIAL PRIMARY KEY</code>: Unique book identifier.</li>\n      <li><code>title VARCHAR(255) NOT NULL</code>: Book title.</li>\n      <li><code>description TEXT</code>: Book description.</li>\n      <li><code>price DECIMAL(10,2) NOT NULL</code>: Book price.</li>\n      <li><code>publication_date DATE</code>: Publication date.</li>\n      <li><code>stock_quantity INTEGER NOT NULL</code>: Available copies.</li>\n    </ul>\n  </li>\n\n<li>\n    <strong>Book_Authors</strong>\n    <ul>\n      <li><code>book_id INTEGER NOT NULL</code>: Foreign key referencing <code>Books(book_id)</code>.</li>\n      <li><code>author_id INTEGER NOT NULL</code>: Foreign key referencing <code>Authors(author_id)</code>.</li>\n      <li><code>PRIMARY KEY (book_id, author_id)</code>: Composite primary key.</li>\n    </ul>\n  </li>\n\n<li>\n    <strong>Book_Categories</strong>\n    <ul>\n      <li><code>book_id INTEGER NOT NULL</code>: Foreign key referencing <code>Books(book_id)</code>.</li>\n      <li><code>category_id INTEGER NOT NULL</code>: Foreign key referencing <code>Categories(category_id)</code>.</li>\n      <li><code>PRIMARY KEY (book_id, category_id)</code>: Composite primary key.</li>\n    </ul>\n  </li>\n\n<li>\n    <strong>Users</strong>\n    <ul>\n      <li><code>user_id SERIAL PRIMARY KEY</code>: Unique user identifier.</li>\n      <li><code>username VARCHAR(50) NOT NULL UNIQUE</code>: Username.</li>\n      <li><code>password_hash VARCHAR(255) NOT NULL</code>: Password hash.</li>\n      <li><code>email VARCHAR(100) NOT NULL UNIQUE</code>: Email.</li>\n      <li><code>first_name VARCHAR(50)</code>: First name.</li>\n      <li><code>last_name VARCHAR(50)</code>: Last name.</li>\n      <li><code>created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP</code>: Registration date and time.</li>\n    </ul>\n  </li>\n\n  <li>\n    <strong>Orders</strong>\n    <ul>\n      <li><code>order_id SERIAL PRIMARY KEY</code>: Unique order identifier.</li>\n      <li><code>user_id INTEGER NOT NULL</code>: Foreign key referencing <code>Users(user_id)</code>.</li>\n      <li><code>order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP</code>: Order date and time.</li>\n      <li><code>status VARCHAR(50) NOT NULL</code>: Order status (e.g., Processing, Delivered).</li>\n    </ul>\n  </li>\n\n<li>\n    <strong>Order_Items</strong>\n    <ul>\n      <li><code>order_item_id SERIAL PRIMARY KEY</code>: Unique record identifier.</li>\n      <li><code>order_id INTEGER NOT NULL</code>: Foreign key referencing <code>Orders(order_id)</code>.</li>\n      <li><code>book_id INTEGER NOT NULL</code>: Foreign key referencing <code>Books(book_id)</code>.</li>\n      <li><code>quantity INTEGER NOT NULL</code>: Number of book copies in the order.</li>\n      <li><code>unit_price DECIMAL(10,2) NOT NULL</code>: Unit price at the time of order.</li>\n    </ul>\n  </li>\n</ol>\n",
+      "hints": "<pre><code>no solution</code></pre>",
+      "initial_query": "",
+      "solution_query": "no solution",
+      "order": 39
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 40,
+    "fields": {
+      "lesson": 1005,
+      "title": "03. Normalization",
+      "instruction": "<h3>3. Normalization</h3>\n\n<h4>First Normal Form (1NF)</h4>\n<p><strong>Requirements</strong>:</p>\n<ul>\n  <li>All columns contain atomic (indivisible) values.</li>\n  <li>No repeating groups or array data.</li>\n</ul>\n\n<p><strong>Application</strong>:</p>\n<ul>\n  <li>Each table has a unique primary key.</li>\n  <li>There are no columns with multiple values (e.g., a list of authors for a book is stored in a separate <code>Book_Authors</code> table).</li>\n</ul>\n\n<h4>Second Normal Form (2NF)</h4>\n<p><strong>Requirements</strong>:</p>\n<ul>\n  <li>The table is in 1NF.</li>\n  <li>All non‑key attributes fully depend on the primary key.</li>\n</ul>\n\n<p><strong>Application</strong>:</p>\n<ul>\n  <li>The <code>Book_Authors</code> and <code>Book_Categories</code> tables use composite primary keys (<code>(book_id, author_id)</code> and <code>(book_id, category_id)</code>, respectively), and all non‑key columns depend on the entire composite key.</li>\n  <li>In tables with single primary keys (e.g., <code>Books</code>, <code>Authors</code>), all non‑key attributes depend on the primary key.</li>\n</ul>\n\n<h4>Third Normal Form (3NF)</h4>\n<p><strong>Requirements</strong>:</p>\n<ul>\n  <li>The table is in 2NF.</li>\n  <li>No transitive dependencies (a non‑key column does not depend on another non‑key column).</li>\n</ul>\n\n<p><strong>Application</strong>:</p>\n<ul>\n  <li>In the <code>Users</code> table, all attributes depend directly on <code>user_id</code>, with no transitive dependencies.</li>\n  <li>In the <code>Orders</code> table, all attributes depend directly on <code>order_id</code>.</li>\n  <li>The <code>Book_Authors</code> and <code>Book_Categories</code> tables do not contain non‑key columns apart from the composite key.</li>\n</ul>\n\n<h4>Why Table Separation is Important</h4>\n<ul>\n  <li>Eliminates data redundancy.</li>\n  <li>Ensures data integrity through foreign keys.</li>\n  <li>Facilitates data updates without the risk of inconsistencies.</li>\n</ul>\n",
+      "hints": "<pre><code>no solution</code></pre>",
+      "initial_query": "",
+      "solution_query": "no solution",
+      "order": 40
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 41,
+    "fields": {
+      "lesson": 1005,
+      "title": "04. Create table Authors",
+      "instruction": "<h2>Create table Authors</h2>\n",
+      "hints": "<pre><code>CREATE TABLE Authors (\n    author_id SERIAL PRIMARY KEY,\n    first_name VARCHAR(50) NOT NULL,\n    last_name VARCHAR(50) NOT NULL,\n    bio TEXT\n);\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "CREATE TABLE Authors (\n    author_id SERIAL PRIMARY KEY,\n    first_name VARCHAR(50) NOT NULL,\n    last_name VARCHAR(50) NOT NULL,\n    bio TEXT\n);\n",
+      "order": 41
+    }
+  },
+  {
+    "model": "lessons.exercise",
+    "pk": 42,
+    "fields": {
+      "lesson": 1005,
+      "title": "05. Create table Categories",
+      "instruction": "<h2>Create table Categories</h2>\n</code></pre>",
+      "hints": "<pre><code>CREATE TABLE Categories (\n    category_id SERIAL PRIMARY KEY,\n    name VARCHAR(100) NOT NULL UNIQUE\n);\n</code></pre>",
+      "initial_query": "",
+      "solution_query": "CREATE TABLE Categories (\n    category_id SERIAL PRIMARY KEY,\n    name VARCHAR(100) NOT NULL UNIQUE\n);\n",
+      "order": 42
+    }
   }
 ]
